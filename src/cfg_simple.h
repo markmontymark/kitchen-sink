@@ -6,7 +6,8 @@
 
 /* simple impl */
 
-void   cfg_simple_init(cfg_t * c,void * notused);
+cfg_t * cfg_simple_new();
+void   cfg_simple_init(cfg_t * c);
 void * cfg_simple_get(cfg_t * c,char * key);
 void   cfg_simple_set(cfg_t * c,char * key,void * data);
 void   cfg_simple_save(cfg_t * c);

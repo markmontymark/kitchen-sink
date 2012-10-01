@@ -8,6 +8,22 @@ TEST_COMPILE = gcc -g -std=gnu11 -c
 
 all: init lib_objects test_objects libso
 cleanall: clean all
+test: clean all
+	./bin/hashtable_test
+	echo 
+	./bin/ordered_tree_generic_test
+	echo 
+	./bin/ordered_tree_str_test
+	echo 
+	./bin/str_test
+	echo 
+	./bin/script_test
+	echo 
+	./bin/ini_test
+	echo 
+	./bin/cfg_test
+	echo 
+	#./bin/db_test
 
 lib_objects: $O/script.o \
 	$O/hashtable.o \
@@ -16,6 +32,7 @@ lib_objects: $O/script.o \
 	$O/prompt.o \
 	$O/db.o \
 	$O/cfg.o \
+	$O/cfg_simple.o \
 	$O/str.o \
 	$O/run_cmd.o
 
@@ -25,6 +42,7 @@ test_objects: $B/hashtable_test \
 	$B/ordered_tree_generic_test \
 	$B/ini_test \
 	$B/str_test \
+	$B/cfg_test \
 	$B/db_test
 
 init:
@@ -41,6 +59,7 @@ libso:
 	gcc -shared -Wl,-soname,libkitchensink.so.$V -o $L/libkitchensink.so.$V \
 	$O/script.o \
 	$O/cfg.o \
+	$O/cfg_simple.o \
 	$O/hashtable.o \
 	$O/ordered_tree.o \
 	$O/ini.o \
@@ -52,6 +71,18 @@ libso:
 
 ## TESTS
 
+$B/ini_test: $O/ini_test.o $O/ini.o
+	gcc -std=gnu11 -g -o $B/ini_test $O/ini_test.o $O/ini.o $O/hashtable.o
+
+$O/ini_test.o: src/ini_test.c src/ini.h
+	gcc -std=gnu11 -g -c src/ini_test.c -o $O/ini_test.o
+
+$B/cfg_test: $O/cfg.o  $O/cfg_test.o
+	gcc -std=gnu11 -g -o $B/cfg_test $O/cfg_test.o $O/cfg.o $O/cfg_simple.o $O/hashtable.o -Wall
+
+$O/cfg_test.o: src/cfg_test.c 
+	gcc -std=gnu11 -g -c src/cfg_test.c -o $O/cfg_test.o
+
 $B/str_test: $O/str.o  $O/str_test.o
 	gcc -std=gnu11 -g -o $B/str_test $O/str_test.o $O/str.o -Wall
 
@@ -59,7 +90,7 @@ $O/str_test.o: src/str_test.c
 	gcc -std=gnu11 -g -c src/str_test.c -o $O/str_test.o
 
 $B/script_test: $O/script.o  $O/script_test.o
-	gcc -std=gnu11 -g -o $B/script_test $O/script_test.o $O/script.o $O/hashtable.o -Wall
+	gcc -std=gnu11 -g -o $B/script_test $O/script_test.o $O/script.o $O/cfg.o $O/cfg_simple.o $O/hashtable.o -Wall
 
 $O/script_test.o: src/script_test.c 
 	gcc -std=gnu11 -g -c src/script_test.c -o $O/script_test.o
@@ -70,11 +101,11 @@ $B/db_test: $O/db.o  $O/db_test.o
 $O/db_test.o: src/db_test.c 
 	gcc -std=gnu11 -g -c src/db_test.c -o $O/db_test.o
 
-$B/benchmark_test: $O/benchmark_test.o $O/script.o
-	gcc -std=gnu11 -g -o $B/benchmark_test $O/benchmark_test.o $O/script.o -Wall -lrt -Isrc/vendor
+$B/timing_test: $O/timing_test.o $O/script.o
+	gcc -std=gnu11 -g -o $B/timing_test $O/timing_test.o $O/script.o -Wall -lrt -Isrc/vendor
 
-$O/benchmark_test.o: src/benchmark_test.c src/script.h
-	gcc -std=gnu11 -g -c src/benchmark_test.c -o $O/benchmark_test.o
+$O/timing_test.o: src/timing_test.c src/script.h
+	gcc -std=gnu11 -g -c src/timing_test.c -o $O/timing_test.o
 
 $B/hashtable_test: $O/hashtable_test.o $O/hashtable.o
 	gcc -std=gnu11 -g -o $B/hashtable_test $O/hashtable_test.o $O/hashtable.o -Isrc/vendor
@@ -94,6 +125,10 @@ $B/ordered_tree_generic_test: $O/ordered_tree_generic_test.o $O/ordered_tree.o
 $O/ordered_tree_generic_test.o: src/ordered_tree_generic_test.c src/ordered_tree.h
 	gcc -std=gnu11 -g -c src/ordered_tree_generic_test.c -o $O/ordered_tree_generic_test.o
 
+
+
+
+
 ## LIB OBJECTS
 
 $O/str.o: src/str.c
@@ -101,6 +136,9 @@ $O/str.o: src/str.c
 
 $O/cfg.o: src/cfg.c
 	gcc -std=gnu11 -g -c src/cfg.c -o $O/cfg.o
+
+$O/cfg_simple.o: src/cfg_simple.c
+	gcc -std=gnu11 -g -c src/cfg_simple.c -o $O/cfg_simple.o $O/hashtable.o
 
 $O/hashtable.o: src/vendor/hashtable.c
 	gcc -std=gnu11 -g -c src/vendor/hashtable.c -o $O/hashtable.o
@@ -122,10 +160,4 @@ $O/ordered_tree.o: src/ordered_tree.h src/ordered_tree.c
 
 $O/ini.o: src/ini.h src/ini.c
 	gcc -std=gnu11 -g -c src/ini.c -o $O/ini.o $O/hashtable.o
-
-$B/ini_test: $O/ini_test.o $O/ini.o
-	gcc -std=gnu11 -g -o $B/ini_test $O/ini_test.o $O/ini.o $O/hashtable.o
-
-$O/ini_test.o: src/ini_test.c src/ini.h
-	gcc -std=gnu11 -g -c src/ini_test.c -o $O/ini_test.o
 

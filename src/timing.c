@@ -1,5 +1,8 @@
-
-// This file auto-generated on Wed Aug 15 07:52:40 2012_
+/**
+* @file timing.c
+* @brief A set of functions to help time functions
+* @author Mark Koopman
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,19 +13,19 @@
 #include <time.h>
 #include <sys/types.h>
 
-#include "benchmark.h"
+#include "timing.h"
 
-int benchmark( void * func, char * arg1, char * arg2)
+int timing( void * func, char * arg1, char * arg2)
 {
-	printf("in benchmark\n");
+	printf("in timing\n");
 	for(int i = 0; i < 100; i++)
 		(*func)(arg1,arg2);
 
-	printf("out benchmark\n");
+	printf("out timing\n");
 	return 0;
 }
 
-int benchmark_char_char(unsigned int times, char *(*func)(char *,char*), char * a, char * b)
+int timing_char_char(unsigned int times, char *(*func)(char *,char*), char * a, char * b)
 {
 	if(times == 0)
 		return 0;

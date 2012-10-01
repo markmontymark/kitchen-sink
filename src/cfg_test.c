@@ -1,10 +1,13 @@
 #include <stdio.h>
 #include "cfg.h"
+#include "cfg_simple.h"
 
 int main( int argc, char ** argv)
 {
-	cfg_t * c = cfg_new(CFG_FORMAT_SIMPLE);
-	cfg_init(c,NULL);
+	cfg_t * c = cfg_simple_new();
+
+	printf("created cfg %p\n",c);
+	printf("created cfg data %p\n",c);
 
 	cfg_set(c,"key1","val1");
 	printf("key1 = %s\n",(char*)cfg_get(c,"key1"));

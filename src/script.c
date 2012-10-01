@@ -16,6 +16,8 @@
 #include <sys/stat.h>
 
 #include "script.h"
+#include "cfg.h"
+#include "cfg_simple.h"
 
 //TODO
 // Add creating ~/.&lt;name&gt;/ per-user directory to log, create data from repeated use
@@ -35,13 +37,14 @@ static char * script_get_home_dir()
 * @param path Pass in argv[0] from main  
 * @returns void, argv[0] is changed in place
 */
-static char * script_get_progname(char * path)
+static void script_get_progname(char * dest, char * path)
 {
-   char * pathcopy = strdup(path);
-   char * retval = malloc(strlen(pathcopy)+1);
+   strcpy(dest,path);
+   char * retval;
    int tries = 3;
-   while( --tries && (retval = rindex(pathcopy,'/')) != NULL)
-      pathcopy = strcpy(pathcopy,retval+1);
+   while( --tries && (retval = strrchr(dest,'/')) != NULL)
+      strcpy(dest,retval+1);
+	printf("script_get_progname end %s\n",dest);
 }
 
 /**
@@ -137,8 +140,7 @@ static int script_read_rcfile(script_t * script)
 
 	char *line[1];
 	char * delim = "=";
-	hash_table_t * cfg = hash_table_new(MODE_COPY);
-	script->cfg = cfg;
+	script->cfg = cfg_simple_new();
 
 	while( read_line(line,1024,fp) != -1)
 	{
@@ -150,7 +152,7 @@ static int script_read_rcfile(script_t * script)
 		val = strtok( NULL, delim );
 		if( val == NULL )
 		{
-			hash_table_add(cfg,key,strlen(key)+1, "\0",1);
+			cfg_set(script->cfg,key,"\0");
 			continue;
 		}
 
@@ -162,11 +164,13 @@ static int script_read_rcfile(script_t * script)
 				snprintf(refval,1024,"%s%s",script_get_home_dir(),val);
 			else
 				snprintf(refval,1024,"%s/%s",script_get_home_dir(),val);
-			hash_table_add(cfg,key,strlen(key)+1, refval,strlen(refval)+1);
+			cfg_set(script->cfg,key,refval);
 		}
 		else
-			hash_table_add(cfg,key,strlen(key)+1, val,strlen(val)+1);
-
+		{
+			printf("cfg_set, key = %s, val = %s\n",key,val);
+			cfg_set(script->cfg,key,val);
+		}
 	}
 	fclose(fp);
 	return 1;	
@@ -222,9 +226,10 @@ static int get_rcfile(script_t * script)
 */
 script_t * script_new(char * name,char * usage)
 {
-	script_get_progname(name);
+	char * pname = malloc(1024);
+	script_get_progname(pname,name);
 	script_t * script = malloc(script_sz);
-	script->progname = strdup(name);
+	script->progname = pname;
 	script->usage = strdup(usage);
 	script->has_rcfile = get_rcfile(script);
 	return script;
@@ -238,7 +243,7 @@ script_t * script_new(char * name,char * usage)
 void script_free(script_t * script)
 {
 	if(script->has_rcfile)
-		hash_table_delete(script->cfg);
+		cfg_free(script->cfg);
 	free(script->progname);	
 	free(script->usage);	
 	free(script->rcfile);	
@@ -259,7 +264,7 @@ char * script_config(script_t * script, char * key, char * defaultValue)
 {
 	if( ! script->has_rcfile)
 		return defaultValue;
-	char * val = hash_table_lookup(script->cfg,key,strlen(key)+1);
+	char * val = cfg_get_str(script->cfg,key);//,strlen(key)+1);
 	if(val == NULL)
 		return defaultValue;
 	return val;
@@ -296,6 +301,6 @@ void script_dump_rcfile(script_t * script,FILE * fp)
 		script->has_rcfile ?  script->rcfile : "None");
 
 	if(script->has_rcfile)
-		hash_table_dump(script->cfg,fp);
+		cfg_dump(script->cfg,fp);
 		
 }

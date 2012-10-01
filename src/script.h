@@ -15,8 +15,7 @@
 #include <assert.h>
 #include <errno.h>
 
-
-#include "vendor/hashtable.h"
+#include "cfg.h"
 
 typedef struct script script_t;
 
@@ -26,7 +25,7 @@ struct script
 	char * progname;
 	char * usage;
 	char * rcfile;
-	hash_table_t * cfg;
+	cfg_t * cfg;
 };
 #define script_sz sizeof(script_t)
 
