@@ -8,7 +8,7 @@
 
 /* simple impl */
 
-void cfg_simple_init(cfg_t * c,void * notused)
+void cfg_simple_init(cfg_t * c)
 {
 	c->data = hash_table_new(MODE_COPY);
 }
@@ -52,4 +52,8 @@ cfg_impl_t * cfg_simple_impl()
 	);
 };
 
+cfg_t * cfg_simple_new()
+{
+	return cfg_new(cfg_simple_impl());
+}
 
