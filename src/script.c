@@ -301,6 +301,6 @@ void script_dump_rcfile(script_t * script,FILE * fp)
 		script->has_rcfile ?  script->rcfile : "None");
 
 	if(script->has_rcfile)
-		cfg_dump(script->cfg,fp);
+		script->cfg->dumper(script->cfg,fp);
 		
 }

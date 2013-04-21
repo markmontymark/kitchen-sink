@@ -52,13 +52,6 @@ cfg_impl_t * cfg_impl_new(
 );
 
 /**
-* This is where you parse some datasource and fill in the void * data structure with your config data
-* @param c A cfg_t object
-* @returns void
-*/
-void cfg_init(cfg_t * c);
-
-/**
 * Get a char * val by lookup with a char * key
 * @param key The char * key to use for the lookup through a common dot notation syntax
 * @returns NULL Returns NULL if key is not in lookup
