@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "script.h"
+#include "../src/script.h"
 
 int main(int argc, char ** argv)
 {

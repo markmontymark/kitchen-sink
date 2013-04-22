@@ -1,5 +1,5 @@
 #include <string.h>
-#include "db.h"
+#include "../src/db.h"
 
 int main(int argc, char ** argv) 
 {

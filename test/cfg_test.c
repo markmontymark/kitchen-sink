@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "cfg.h"
-#include "cfg_simple.h"
+#include "../src/cfg.h"
+#include "../src/cfg_simple.h"
 
 int main( int argc, char ** argv)
 {

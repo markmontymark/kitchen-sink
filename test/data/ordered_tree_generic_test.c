@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "ordered_tree.h"
+#include "../../src/data/ordered_tree.h"
 
 struct book
 {

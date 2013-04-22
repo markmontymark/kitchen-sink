@@ -3,7 +3,7 @@
 #include <assert.h>
 #include <string.h>
 
-#include "str.h"
+#include "../src/str.h"
 
 int main(int argc, char ** argv)
 {	

@@ -6,7 +6,7 @@
 #include <string.h>
 #include <errno.h>
 #include <time.h>
-#include "common.h"
+#include "../src/common.h"
 
 const char * USAGE = "Write a pointer based version of strcat(dest,src)";
 

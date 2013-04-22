@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "ordered_tree.h"
+#include "../../src/data/ordered_tree.h"
 
 void print_ordered_tree_str( ordered_tree_str_t * node )
 {
