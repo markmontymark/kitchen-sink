@@ -52,7 +52,37 @@ Looking up "asdfasdf", w/ default value "should be used": returned: should be us
 	{
 		name => 'Cfg test',
 		expected => q##,
-	}
+	},
+	obj_test => 
+	{
+		name => 'Obj test',
+		regex_expected => qr#\s*init obj 0x[0-9A-Za-z]+
+created obj 0x[0-9A-Za-z]+
+created obj data 0x[0-9A-Za-z]+
+obj_set 0x[0-9A-Za-z]+, key key1, val val1
+set key1 to val1
+key1 with getter = val1
+key1 = val1
+obj_set 0x[0-9A-Za-z]+, key key1, val val1 changed
+key1 = val1
+obj dump
+----------
+obj data dump
+key1 = val1
+key1 = val1 changed
+----------
+obj_set 0x[0-9A-Za-z]+, key key2, val val2
+key2 = val2
+obj dump
+----------
+obj data dump
+key1 = val1
+key1 = val1 changed
+key2 = val2
+----------\s*
+#,
+	},
+
 };
 
 walk( $test_dir, \&run_tests );
@@ -70,10 +100,21 @@ sub run_tests
 		print "Found test, $path, but $name doesn't exist in test config...Skipping\n";
 		return;
 	}
+	my $t_cfg = $cfg->{$name};
+	unless(exists $t_cfg->{expected} or exists $t_cfg->{regex_expected})
+	{
+		print "Found test with $name but no 'expected' or 'regex_expected' is set...Skipping\n";
+		return;
+	}
 	my $got = &trim(join '',`$path`);
-	my $expected = &trim($cfg->{$name}->{expected});
-	
-	is($got, $expected, $name);
+	if(exists $t_cfg->{regex_expected})
+	{
+		like($got, $t_cfg->{regex_expected} , $name);
+	}
+	else
+	{
+		is($got, &trim($t_cfg->{expected}) , $name);
+	}
 }
 
 sub trim

@@ -19,8 +19,10 @@ lib_objects: $O/script.o \
 	$O/prompt.o \
 	$O/db.o \
 	$O/cfg.o \
+	$O/obj.o \
 	$O/cfg_simple.o \
 	$O/str.o \
+	$O/user.o \
 	$O/run_cmd.o
 
 test_objects: $T/hashtable_test \
@@ -29,6 +31,8 @@ test_objects: $T/hashtable_test \
 	$T/ordered_tree_generic_test \
 	$T/str_test \
 	$T/cfg_test \
+	$T/obj_test \
+	$T/user_test \
 	$T/db_test
 
 init:
@@ -44,6 +48,7 @@ doxy:
 libso:
 	gcc -shared -fPIC -Wl,-soname,libkitchensink.so.$V -o $L/libkitchensink.so.$V \
 	$O/script.o \
+	$O/obj.o \
 	$O/cfg.o \
 	$O/cfg_simple.o \
 	$O/hashtable.o \
@@ -51,10 +56,23 @@ libso:
 	$O/db.o \
 	$O/prompt.o \
 	$O/str.o \
+	$O/user.o \
 	$O/run_cmd.o
 
 
 ## TESTS
+
+$T/user_test: $O/user.o  $O/user_test.o
+	gcc -fPIC -std=gnu11 -g -o $T/user_test $O/user_test.o $O/user.o $O/obj.o $O/hashtable.o -Wall
+
+$O/user_test.o: test/model/user_test.c 
+	gcc -fPIC -std=gnu11 -g -c test/model/user_test.c -o $O/user_test.o
+
+$T/obj_test: $O/obj.o  $O/obj_test.o
+	gcc -fPIC -std=gnu11 -g -o $T/obj_test $O/obj_test.o $O/obj.o $O/hashtable.o -Wall
+
+$O/obj_test.o: test/obj_test.c 
+	gcc -fPIC -std=gnu11 -g -c test/obj_test.c -o $O/obj_test.o
 
 $T/cfg_test: $O/cfg.o  $O/cfg_test.o
 	gcc -fPIC -std=gnu11 -g -o $T/cfg_test $O/cfg_test.o $O/cfg.o $O/cfg_simple.o $O/hashtable.o -Wall
@@ -113,6 +131,9 @@ $O/ordered_tree_generic_test.o: test/data/ordered_tree_generic_test.c src/data/o
 $O/str.o: src/str.c
 	gcc -fPIC -std=gnu11 -g -c src/str.c -o $O/str.o
 
+$O/user.o: src/model/user.c
+	gcc -fPIC -std=gnu11 -g -c src/model/user.c -o $O/user.o
+
 $O/cfg.o: src/cfg.c
 	gcc -fPIC -std=gnu11 -g -c src/cfg.c -o $O/cfg.o
 
@@ -121,6 +142,9 @@ $O/cfg_simple.o: src/cfg_simple.c
 
 $O/hashtable.o: src/vendor/hashtable.c
 	gcc -fPIC -std=gnu11 -g -c src/vendor/hashtable.c -o $O/hashtable.o
+
+$O/obj.o: src/obj.c
+	gcc -fPIC -std=gnu11 -g -c src/obj.c -o $O/obj.o
 
 $O/run_cmd.o: src/run_cmd.c
 	gcc -fPIC -std=gnu11 -g -c src/run_cmd.c -o $O/run_cmd.o
