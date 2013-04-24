@@ -51,7 +51,22 @@ Looking up "asdfasdf", w/ default value "should be used": returned: should be us
 	cfg_test => 
 	{
 		name => 'Cfg test',
-		expected => q##,
+		regex_expected => q#/\s*created cfg 0x[0-9A-Za-z]+
+created cfg data 0x[0-9A-Za-z]+
+key1 = val1
+key1 = val1
+cfg dump
+----------
+key1 = val1
+key1 = val1 changed
+----------
+key2 = val2
+cfg dump
+----------
+key1 = val1
+key1 = val1 changed
+key2 = val2
+----------\s*/#,
 	},
 	obj_test => 
 	{

@@ -2,11 +2,11 @@
 #include <string.h>
 #include <stdlib.h>
 #include "cfg.h"
+#include "obj.h"
 
 cfg_t * cfg_new(cfg_impl_t * impl)
 {
    cfg_t * c = malloc(cfg_s);
-	//c->data = hashtable_new(); // TODO or null?
    c->initter = impl->initter;
    c->getter = impl->getter;
    c->setter = impl->setter;
@@ -40,41 +40,34 @@ cfg_impl_t * cfg_impl_new(
 
 void * cfg_get( cfg_t * c, char * key)
 {
-	return c->getter(c->data,key);
+	return c->getter(c,key);
 }
 char * cfg_get_str(cfg_t * c, char * key)
 {
-	return (char *) c->getter(c->data,key);
+	return (char *) c->getter(c,key);
 }
 
 int    cfg_get_int(cfg_t * c, char * key)
 {
-	return (int) c->getter(c->data,key);
+	return (int) c->getter(c,key);
 }
-
 
 void cfg_set( cfg_t * c, char * key, void * val)
 {
-	c->setter(c->data,key,val);
+	c->setter(c,key,val);
 }
 
 void cfg_free(cfg_t * c)
 {
 	if( !c )
 		return;	
-	free(c->data);
-   free(c->initter);
-   free(c->getter);
-   free(c->setter);
-   free(c->saver);
-   free(c->freer);
-   free(c->dumper);
+	if(c->freer)
+		c->freer(c);
 }
 
 void cfg_dump(cfg_t * c,FILE * fp)
 {
 	c->dumper(c,fp); // TODO should be c->data
 }
-
 
 

@@ -12,6 +12,7 @@ void cfg_simple_init(cfg_t * c)
 {
 	c->data = hash_table_new(MODE_COPY);
 }
+
 void cfg_simple_free(cfg_t * c)
 {
 	hash_table_delete(c->data);
@@ -23,10 +24,10 @@ void * cfg_simple_get(cfg_t * c,char * key)
 	return hash_table_lookup(c->data,key,strlen(key)+1);
 }
 
-void cfg_simple_set(cfg_t * c,char * key,void * data)
+void cfg_simple_set(cfg_t * c, char * key, void * data)
 {
 	char * val = (char *)data;
-	hash_table_add(c->data,key,strlen(key)+1, val,strlen(val)+1);
+	hash_table_add(c->data, key, strlen(key)+1, val, strlen(val)+1);
 }
 
 void cfg_simple_save(cfg_t * c)
