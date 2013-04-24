@@ -56,7 +56,7 @@ Looking up "asdfasdf", w/ default value "should be used": returned: should be us
 	obj_test => 
 	{
 		name => 'Obj test',
-		regex_expected => qr#\s*init obj 0x[0-9A-Za-z]+
+		regex_expected => q'/\s*init obj 0x[0-9A-Za-z]+
 created obj 0x[0-9A-Za-z]+
 created obj data 0x[0-9A-Za-z]+
 obj_set 0x[0-9A-Za-z]+, key key1, val val1
@@ -79,8 +79,16 @@ obj data dump
 key1 = val1
 key1 = val1 changed
 key2 = val2
-----------\s*
-#,
+----------\s*/',
+	},
+
+	user_test => 
+	{
+		name => 'Model/user test',
+		regex_expected => q'/\s*init obj 0x[0-9A-Za-z]+
+created user 0x[0-9A-Za-z]+
+obj_set 0x[0-9A-Za-z]+, key name, val ken
+set user ken\s*/',
 	},
 
 };
