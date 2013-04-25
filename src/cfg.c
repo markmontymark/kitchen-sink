@@ -47,9 +47,9 @@ char * cfg_get_str(cfg_t * c, char * key)
 	return (char *) c->getter(c,key);
 }
 
-int    cfg_get_int(cfg_t * c, char * key)
+int *   cfg_get_int(cfg_t * c, char * key)
 {
-	return (int) c->getter(c,key);
+	return (int *) c->getter(c,key);
 }
 
 void cfg_set( cfg_t * c, char * key, void * val)

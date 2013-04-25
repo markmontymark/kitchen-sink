@@ -59,7 +59,7 @@ cfg_impl_t * cfg_impl_new(
 */
 void * cfg_get(cfg_t * c, char * key);
 char * cfg_get_str(cfg_t * c, char * key);
-int    cfg_get_int(cfg_t * c, char * key);
+int  * cfg_get_int(cfg_t * c, char * key);
 
 /**
 * Add a new char * key to the lookup

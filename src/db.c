@@ -7,9 +7,9 @@ void db_login( MYSQL * conn, const char * const host, const char * const databas
 	char * pw = malloc(100);
 	prompt_noecho("User: ",un);
 	prompt_noecho("Password: ",pw);
-
-	printf("Connecting...\n");
-   conn = mysql_init(NULL);
+	
+	//printf("Connecting...\n");
+   mysql_init(conn);
    if (!mysql_real_connect(
 			conn, host, un, pw, database, 0, NULL, 0)
 	) {
@@ -32,7 +32,7 @@ void db_void_query(MYSQL * conn, char * sql)
 MYSQL_RES * db_query(MYSQL * conn, char * sql)
 {
 	db_void_query(conn,sql);
-   return mysql_use_result(conn);
+   return  mysql_use_result(conn);
 }
 	
 void db_logout(MYSQL * conn)

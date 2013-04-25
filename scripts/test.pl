@@ -106,6 +106,20 @@ obj_set 0x[0-9A-Za-z]+, key name, val ken
 set user ken\s*/',
 	},
 
+	db_test => {
+		name=>'MySQL Database test',
+		args => 'localhost',
+		expected => q#User:
+Password:
+opened mysql connection
+step1: create simple table
+step2: insert simple table
+step3: select from insert simple table, 1 stringy test string
+step4: delete simple data
+step5: drop simple table
+close mysql connection#,
+	},
+
 };
 
 walk( $test_dir, \&run_tests );
@@ -124,12 +138,15 @@ sub run_tests
 		return;
 	}
 	my $t_cfg = $cfg->{$name};
+	my $t_args = exists $t_cfg->{args} ? $t_cfg->{args} : undef;
 	unless(exists $t_cfg->{expected} or exists $t_cfg->{regex_expected})
 	{
 		print "Found test with $name but no 'expected' or 'regex_expected' is set...Skipping\n";
 		return;
 	}
-	my $got = &trim(join '',`$path`);
+	my $cmdline = $path;
+	$cmdline .= " $t_args" if defined $t_args;
+	my $got = &trim(join '',`$cmdline`);
 	if(exists $t_cfg->{regex_expected})
 	{
 		like($got, $t_cfg->{regex_expected} , $name);

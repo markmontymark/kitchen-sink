@@ -3,6 +3,8 @@ B = bin
 T = bin-test
 O = obj
 L = lib
+M = -L/usr/lib/x86_64-linux-gnu -lmysqlclient -lpthread -lz -lm -lrt -ldl
+
 
 LIB_COMPILE = gcc -g -std=gnu11 -fPIC -c -Wall
 X = gcc -g -std=gnu11 -fPIC -c -Wall
@@ -93,7 +95,8 @@ $O/script_test.o: test/script_test.c
 	gcc -fPIC -std=gnu11 -g -c test/script_test.c -o $O/script_test.o
 
 $T/db_test: $O/db.o  $O/db_test.o
-	gcc -fPIC -std=gnu11 -g -o $T/db_test $O/db_test.o $O/db.o $O/prompt.o -Wall -lmysqlclient
+	gcc -fPIC -std=gnu11 -g -o $T/db_test $O/db_test.o $O/db.o $O/prompt.o -Wall $M
+
 
 $O/db_test.o: test/db_test.c 
 	gcc -fPIC -std=gnu11 -g -c test/db_test.c -o $O/db_test.o
@@ -138,7 +141,7 @@ $O/cfg.o: src/cfg.c
 	gcc -fPIC -std=gnu11 -g -c src/cfg.c -o $O/cfg.o
 
 $O/cfg_simple.o: src/cfg_simple.c
-	gcc -fPIC -std=gnu11 -g -c src/cfg_simple.c -o $O/cfg_simple.o $O/hashtable.o
+	gcc -fPIC -std=gnu11 -g -c src/cfg_simple.c -o $O/cfg_simple.o
 
 $O/hashtable.o: src/vendor/hashtable.c
 	gcc -fPIC -std=gnu11 -g -c src/vendor/hashtable.c -o $O/hashtable.o
@@ -153,7 +156,7 @@ $O/prompt.o: src/prompt.c
 	gcc -fPIC -std=gnu11 -g -c src/prompt.c -o $O/prompt.o
 
 $O/db.o: src/db.c
-	gcc -fPIC -std=gnu11 -g -c src/db.c -o $O/db.o $O/prompt.o
+	gcc -fPIC -std=gnu11 -g -c src/db.c -o $O/db.o $M
 
 $O/script.o: src/script.h src/script.c
 	gcc -fPIC -fPIC -std=gnu11 -g -c src/script.c -o $O/script.o
