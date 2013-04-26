@@ -4,17 +4,14 @@
 #include "../obj.h"
 #include "user.h"
 
-static char * NAME = "name";
 
 void  user_init(user_t * u)
 {
-	printf("init user %p\n",u);
 	u->data->init( u->data );
 }
 
 void  user_save(user_t * u)
 {
-	printf("save user %p\n",u);
 	u->data->save( u->data );
 }
 
@@ -26,14 +23,24 @@ user_t * user_new()
    return u;
 }
 
+int  * user_get_id( user_t * u )
+{
+	return u->data->get(u->data, OBJ_ID);
+}
+
+void   user_set_id( user_t * u, int * id)
+{
+	return u->data->set(u->data, OBJ_ID, id);
+}
+
 char * user_get_name( user_t * u )
 {
-	return u->data->get(u->data, NAME);
+	return u->data->get(u->data, OBJ_NAME);
 }
 
 void   user_set_name( user_t * u, char * name )
 {
-	return u->data->set(u->data, NAME, name);
+	return u->data->set(u->data, OBJ_NAME, name);
 }
 
 void user_free(user_t * u)

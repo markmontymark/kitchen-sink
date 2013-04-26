@@ -3,18 +3,18 @@
 
 #include "char_stack.h"
 
-struct char_stack * 
+char_stack_t *
 char_stack_init()
 {
-	struct char_stack * nextEntry = malloc(sizeof(struct char_stack));
+	char_stack_t * nextEntry = malloc(char_stack_s);
 	nextEntry->c = '\0';
 	nextEntry->next = NULL;
 	return nextEntry;
 }
 
-void char_stack_free(struct char_stack * cs)
+void char_stack_free(char_stack_t  * cs)
 {
-	struct char_stack * tmp;
+	char_stack_t * tmp;
 	while(cs != NULL)
 	{
 		tmp = cs;
@@ -24,9 +24,9 @@ void char_stack_free(struct char_stack * cs)
 	free(cs);
 }
 
-void char_stack_dump(struct char_stack * cs,FILE * fp)
+void char_stack_dump(char_stack_t * cs,FILE * fp)
 {
-	struct char_stack * tmp;
+	char_stack_t * tmp;
 	while(cs != NULL)
 	{
 		fprintf(fp,"stack: %c, %p\n",cs->c,cs);
@@ -34,25 +34,25 @@ void char_stack_dump(struct char_stack * cs,FILE * fp)
 	}
 }
 
-struct char_stack * 
-char_stack_push( struct char_stack *cs,char c)
+char_stack_t * 
+char_stack_push( char_stack_t * cs,char c)
 {
-	struct char_stack * nextEntry = malloc(sizeof(struct char_stack));
+	char_stack_t * nextEntry = malloc(char_stack_s);
 	nextEntry->c = c;
 	nextEntry->next = cs;
 	return nextEntry;
 }
 
-struct char_stack * char_stack_pop( struct char_stack * cs)
+char_stack_t * char_stack_pop( char_stack_t * cs)
 {
-	struct char_stack * tmp;
+	char_stack_t * tmp;
 	tmp = cs;
 	cs = cs->next;	
 	free(tmp);
 	return cs;
 }
 
-int char_stack_is_empty( struct char_stack * cs)
+int char_stack_is_empty( char_stack_t * cs)
 {
 	if(cs == NULL)
 		return 1;
@@ -61,7 +61,7 @@ int char_stack_is_empty( struct char_stack * cs)
 
 int char_stack_test( int argc, char ** argv )
 {
-	struct char_stack * stack = char_stack_init();
+	char_stack_t * stack = char_stack_init();
 	printf("initial char_stack root is empty? %s\n",
 		char_stack_is_empty( stack ) ? "yes" : "no");
 

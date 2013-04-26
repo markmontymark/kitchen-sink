@@ -4,8 +4,6 @@
 #include "../obj.h"
 #include "account.h"
 
-static char * ID   = "id";
-static char * NAME = "name";
 
 void  account_init(account_t * o)
 {
@@ -17,7 +15,6 @@ void  account_save(account_t * o)
 	o->data->save( o->data );
 }
 
-
 account_t * account_new()
 {
    account_t * o = malloc(account_s);
@@ -27,22 +24,22 @@ account_t * account_new()
 
 int  * account_get_id( account_t * o )
 {
-	return (int*) ( o->data->get(o->data, ID));
+	return (int*) ( o->data->get(o->data, OBJ_ID));
 }
 
 void   account_set_id( account_t * o, int * id )
 {
-	return o->data->set(o->data, ID, id);
+	return o->data->set(o->data, OBJ_ID, id);
 }
 
 char * account_get_name( account_t * o )
 {
-	return o->data->get(o->data, NAME);
+	return o->data->get(o->data, OBJ_NAME);
 }
 
 void   account_set_name( account_t * o, char * name )
 {
-	return o->data->set(o->data, NAME, name);
+	return o->data->set(o->data, OBJ_NAME, name);
 }
 
 void account_free(account_t * o)

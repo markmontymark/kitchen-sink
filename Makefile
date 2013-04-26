@@ -1,6 +1,7 @@
-V = 1 #lib version
+V = 1 # lib version
 B = bin
 T = bin-test
+TO = obj-test
 O = obj
 L = lib
 M = -L/usr/lib/x86_64-linux-gnu -lmysqlclient -lpthread -lz -lm -lrt -ldl
@@ -29,23 +30,23 @@ lib_objects: $O/script.o \
 	$O/org.o \
 	$O/run_cmd.o
 
-test_objects: $T/hashtable_test \
-	$T/script_test \
-	$T/ordered_tree_str_test \
-	$T/ordered_tree_generic_test \
-	$T/str_test \
-	$T/cfg_test \
-	$T/obj_test \
-	$T/user_test \
-	$T/account_test \
-	$T/org_test \
-	$T/db_test
+test_objects: $T/hashtable \
+	$T/script \
+	$T/ordered_tree_str \
+	$T/ordered_tree_generic \
+	$T/str \
+	$T/cfg \
+	$T/obj \
+	$T/user \
+	$T/account \
+	$T/org \
+	$T/db
 
 init:
-	mkdir -p $O $B $L $T
+	mkdir -p $O $B $L $T $(TO)
 
 clean:
-	rm -rf $O $B $L $T
+	rm -rf $O $B $L $T $(TO)
 
 doxy:
 	doxygen Doxyfile
@@ -70,78 +71,77 @@ libso:
 
 ## TESTS
 
-$T/user_test: $O/user.o  $O/user_test.o
-	gcc -fPIC -std=gnu11 -g -o $T/user_test $O/user_test.o $O/user.o $O/obj.o $O/hashtable.o -Wall
+$T/user: $O/user.o  $(TO)/user.o
+	gcc -fPIC -std=gnu11 -g -o $T/user $(TO)/user.o $O/user.o $O/obj.o $O/hashtable.o -Wall
 
-$O/user_test.o: test/model/user_test.c 
-	gcc -fPIC -std=gnu11 -g -c test/model/user_test.c -o $O/user_test.o
+$(TO)/user.o: test/model/user.c 
+	gcc -fPIC -std=gnu11 -g -c test/model/user.c -o $(TO)/user.o
 
-$T/account_test: $O/account.o  $O/account_test.o
-	gcc -fPIC -std=gnu11 -g -o $T/account_test $O/account_test.o $O/account.o $O/obj.o $O/hashtable.o -Wall
+$T/account: $O/account.o  $(TO)/account.o
+	gcc -fPIC -std=gnu11 -g -o $T/account $(TO)/account.o $O/account.o $O/obj.o $O/hashtable.o -Wall
 
-$O/account_test.o: test/model/account_test.c 
-	gcc -fPIC -std=gnu11 -g -c test/model/account_test.c -o $O/account_test.o
+$(TO)/account.o: test/model/account.c 
+	gcc -fPIC -std=gnu11 -g -c test/model/account.c -o $(TO)/account.o
 
-$T/org_test: $O/org.o  $O/org_test.o
-	gcc -fPIC -std=gnu11 -g -o $T/org_test $O/org_test.o $O/org.o $O/obj.o $O/hashtable.o -Wall
+$T/org: $O/org.o  $(TO)/org.o
+	gcc -fPIC -std=gnu11 -g -o $T/org $(TO)/org.o $O/org.o $O/obj.o $O/hashtable.o -Wall
 
-$O/org_test.o: test/model/org_test.c 
-	gcc -fPIC -std=gnu11 -g -c test/model/org_test.c -o $O/org_test.o
+$(TO)/org.o: test/model/org.c 
+	gcc -fPIC -std=gnu11 -g -c test/model/org.c -o $(TO)/org.o
 
-$T/obj_test: $O/obj.o  $O/obj_test.o
-	gcc -fPIC -std=gnu11 -g -o $T/obj_test $O/obj_test.o $O/obj.o $O/hashtable.o -Wall
+$T/obj: $O/obj.o  $(TO)/obj.o
+	gcc -fPIC -std=gnu11 -g -o $T/obj $(TO)/obj.o $O/obj.o $O/hashtable.o -Wall
 
-$O/obj_test.o: test/obj_test.c 
-	gcc -fPIC -std=gnu11 -g -c test/obj_test.c -o $O/obj_test.o
+$(TO)/obj.o: test/obj.c 
+	gcc -fPIC -std=gnu11 -g -c test/obj.c -o $(TO)/obj.o
 
-$T/cfg_test: $O/cfg.o  $O/cfg_test.o
-	gcc -fPIC -std=gnu11 -g -o $T/cfg_test $O/cfg_test.o $O/cfg.o $O/cfg_simple.o $O/hashtable.o -Wall
+$T/cfg: $O/cfg.o  $(TO)/cfg.o
+	gcc -fPIC -std=gnu11 -g -o $T/cfg $(TO)/cfg.o $O/cfg.o $O/cfg_simple.o $O/hashtable.o -Wall
 
-$O/cfg_test.o: test/cfg_test.c 
-	gcc -fPIC -std=gnu11 -g -c test/cfg_test.c -o $O/cfg_test.o
+$(TO)/cfg.o: test/cfg.c 
+	gcc -fPIC -std=gnu11 -g -c test/cfg.c -o $(TO)/cfg.o
 
-$T/str_test: $O/str.o  $O/str_test.o
-	gcc -fPIC -std=gnu11 -g -o $T/str_test $O/str_test.o $O/str.o -Wall
+$T/str: $O/str.o  $(TO)/str.o
+	gcc -fPIC -std=gnu11 -g -o $T/str $(TO)/str.o $O/str.o -Wall
 
-$O/str_test.o: test/str_test.c 
-	gcc -fPIC -std=gnu11 -g -c test/str_test.c -o $O/str_test.o
+$(TO)/str.o: test/str.c 
+	gcc -fPIC -std=gnu11 -g -c test/str.c -o $(TO)/str.o
 
-$T/script_test: $O/script.o  $O/script_test.o
-	gcc -fPIC -std=gnu11 -g -o $T/script_test $O/script_test.o $O/script.o $O/cfg.o $O/cfg_simple.o $O/hashtable.o -Wall
+$T/script: $O/script.o  $(TO)/script.o
+	gcc -fPIC -std=gnu11 -g -o $T/script $(TO)/script.o $O/script.o $O/cfg.o $O/cfg_simple.o $O/hashtable.o -Wall
 
-$O/script_test.o: test/script_test.c 
-	gcc -fPIC -std=gnu11 -g -c test/script_test.c -o $O/script_test.o
+$(TO)/script.o: test/script.c 
+	gcc -fPIC -std=gnu11 -g -c test/script.c -o $(TO)/script.o
 
-$T/db_test: $O/db.o  $O/db_test.o
-	gcc -fPIC -std=gnu11 -g -o $T/db_test $O/db_test.o $O/db.o $O/prompt.o -Wall $M
+$T/db: $O/db.o  $(TO)/db.o
+	gcc -fPIC -std=gnu11 -g -o $T/db $(TO)/db.o $O/db.o $O/prompt.o -Wall $M
 
+$(TO)/db.o: test/db.c 
+	gcc -fPIC -std=gnu11 -g -c test/db.c -o $(TO)/db.o
 
-$O/db_test.o: test/db_test.c 
-	gcc -fPIC -std=gnu11 -g -c test/db_test.c -o $O/db_test.o
+$T/timing: $(TO)/timing.o $O/script.o
+	gcc -fPIC -std=gnu11 -g -o $T/timing $(TO)/timing.o $O/timing.o $O/script.o -Wall -lrt -Isrc/vendor
 
-$T/timing_test: $O/timing_test.o $O/script.o
-	gcc -fPIC -std=gnu11 -g -o $T/timing_test $O/timing_test.o $O/script.o -Wall -lrt -Isrc/vendor
+$(TO)/timing.o: test/timing.c src/script.h
+	gcc -fPIC -std=gnu11 -g -c test/timing.c -o $(TO)/timing.o
 
-$O/timing_test.o: test/timing_test.c src/script.h
-	gcc -fPIC -std=gnu11 -g -c test/timing_test.c -o $O/timing_test.o
+$T/hashtable: $O/hashtable.o $(TO)/hashtable.o
+	gcc -fPIC -std=gnu11 -g -o $T/hashtable $(TO)/hashtable.o $O/hashtable.o -Isrc/vendor
 
-$T/hashtable_test: $O/hashtable_test.o $O/hashtable.o
-	gcc -fPIC -std=gnu11 -g -o $T/hashtable_test $O/hashtable_test.o $O/hashtable.o -Isrc/vendor
+$(TO)/hashtable.o: test/data/hashtable.c 
+	gcc -fPIC -std=gnu11 -g -c test/data/hashtable.c -o $(TO)/hashtable.o -Isrc/vendor
 
-$O/hashtable_test.o: test/data/hashtable_test.c 
-	gcc -fPIC -std=gnu11 -g -c test/data/hashtable_test.c -o $O/hashtable_test.o -Isrc/vendor
+$T/ordered_tree_str: $(TO)/ordered_tree_str.o $O/ordered_tree.o
+	gcc -fPIC -std=gnu11 -g -o $T/ordered_tree_str $(TO)/ordered_tree_str.o $O/ordered_tree.o
 
-$T/ordered_tree_str_test: $O/ordered_tree_str_test.o $O/ordered_tree.o
-	gcc -fPIC -std=gnu11 -g -o $T/ordered_tree_str_test $O/ordered_tree_str_test.o $O/ordered_tree.o
+$(TO)/ordered_tree_str.o: test/data/ordered_tree_str.c src/data/ordered_tree.h
+	gcc -fPIC -std=gnu11 -g -c test/data/ordered_tree_str.c -o $(TO)/ordered_tree_str.o
 
-$O/ordered_tree_str_test.o: test/data/ordered_tree_str_test.c src/data/ordered_tree.h
-	gcc -fPIC -std=gnu11 -g -c test/data/ordered_tree_str_test.c -o $O/ordered_tree_str_test.o
+$T/ordered_tree_generic: $(TO)/ordered_tree_generic.o $O/ordered_tree.o
+	gcc -fPIC -std=gnu11 -g -o $T/ordered_tree_generic $(TO)/ordered_tree_generic.o $O/ordered_tree.o
 
-$T/ordered_tree_generic_test: $O/ordered_tree_generic_test.o $O/ordered_tree.o
-	gcc -fPIC -std=gnu11 -g -o $T/ordered_tree_generic_test $O/ordered_tree_generic_test.o $O/ordered_tree.o
-
-$O/ordered_tree_generic_test.o: test/data/ordered_tree_generic_test.c src/data/ordered_tree.h
-	gcc -fPIC -std=gnu11 -g -c test/data/ordered_tree_generic_test.c -o $O/ordered_tree_generic_test.o
+$(TO)/ordered_tree_generic.o: test/data/ordered_tree_generic.c src/data/ordered_tree.h
+	gcc -fPIC -std=gnu11 -g -c test/data/ordered_tree_generic.c -o $(TO)/ordered_tree_generic.o
 
 
 

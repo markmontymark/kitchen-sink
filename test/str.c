@@ -19,6 +19,4 @@ int main(int argc, char ** argv)
 	assert( strcmp( substr_match, retval ) == 0 );
 	free(retval);
 	//int str_indexof(char * text,char delim);
-
-
 }

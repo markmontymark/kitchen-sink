@@ -9,7 +9,7 @@ my $test_dir = shift;
 
 my $cfg = 
 {
-	hashtable_test => {
+	hashtable => {
 		name=>'Hashtable test',
 		expected => q#
 Key NOT found 300
@@ -18,7 +18,7 @@ j -> 300
 *value is (nil)
 #,
 	},
-	ordered_tree_generic_test => {
+	ordered_tree_generic => {
 		name => 'Ordered Generic Tree test',
 		expected => q#
 Title blah has 12 pages
@@ -26,7 +26,7 @@ aSasfsdfdsTitle blah has 14 pages
 ignore has 10 pages
 #,
 	},
-	ordered_tree_str_test => {
+	ordered_tree_str => {
 		name => 'Ordered String Tree test',
 		expected => q#
 beginning
@@ -34,21 +34,21 @@ middle
 z end
 #,
 	},
-	str_test => {
+	str => {
 		name => 'Str test',
 		expected => q##,
 	},
-	script_test => {
+	script => {
 		name => 'Script test',
 		expected => q#
-script_get_progname end script_test
-script_test
+script_get_progname end script
+script
 rcfile None
 Looking up "sc_dir", w/ default value "shouldn't be used": returned: shouldn't be used
 Looking up "asdfasdf", w/ default value "should be used": returned: should be used
 #,
 	},
-	cfg_test => 
+	cfg => 
 	{
 		name => 'Cfg test',
 		regex_expected => q#/\s*created cfg 0x[0-9A-Za-z]+
@@ -68,7 +68,7 @@ key1 = val1 changed
 key2 = val2
 ----------\s*/#,
 	},
-	obj_test => 
+	obj => 
 	{
 		name => 'Obj test',
 		regex_expected => q'/\s*created obj 0x[0-9A-Za-z]+
@@ -91,14 +91,14 @@ key2 = val2
 ----------\s*/',
 	},
 
-	user_test => 
+	user => 
 	{
 		name => 'Model/user test',
 		regex_expected => q'/\s*created user 0x[0-9A-Za-z]+
 set user \w+\s*/',
 	},
 
-	account_test => 
+	account => 
 	{
 		name => 'model/account test',
 		regex_expected => q'/\s*created account 0x[0-9A-Za-z]+
@@ -106,7 +106,7 @@ set account id \d+
 set account name \w+\s*/',
 	},
 
-	org_test => 
+	org => 
 	{
 		name => 'Model/org test',
 		regex_expected => q'/\s*created org 0x[0-9A-Za-z]+
@@ -117,12 +117,12 @@ set org name [A-Za-z\s,]+\s*/',
 	## db_test is commented out by default
 	## prereqs - MySQL client libs, libmysqlclient and mysql/mysql.h
 	## If you want to run this test, first run make, then 
-	## run the ./bin-test/db_test binary as
-	##		$ ./bin-test/db_test localhost # assuming you have mysqld running on localhost
+	## run the ./bin-test/db binary as
+	##		$ ./bin-test/db localhost # assuming you have mysqld running on localhost
 	##		Note, you'll see two prompts, first for your mysql username and second, the user's password
 	##		So, this script doesn't print out those "User: " and "Password: " but it does block on them,
 	##		for now until I fix that.
-	commentedout_db_test => {
+	commentedout_db => {
 		name=>'MySQL Database test',
 		args => 'localhost',
 		expected => q#User:

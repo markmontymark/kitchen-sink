@@ -7,6 +7,9 @@
 #ifndef __KITCHEN_SINK_OBJ_H_
 #define __KITCHEN_SINK_OBJ_H_
 
+#define OBJ_ID "ID"
+#define OBJ_NAME "NAME"
+
 typedef struct obj obj_t;
 struct obj {
 	void * data;
