@@ -47,12 +47,21 @@ char * obj_get_str(obj_t * c, char * key);
 int  * obj_get_int(obj_t * c, char * key);
 
 /**
-* Add a new char * key to the lookup
+* Add a new char * key to the lookup with a char * value
 * @param key A char * for the lookup to use as a key. Duplicate key have their value overwritten
 * @param val A char * for the lookup to return for the key.
 * @returns void
 */
 void obj_set(obj_t * c, char * key, void * val);
+
+/**
+* Add a new char * key to the lookup with an arbitrary void * value
+* @param key A char * for the lookup to use as a key. Duplicate key have their value overwritten
+* @param val A void * for the lookup to return for the key.
+* @returns void
+*/
+void obj_set_obj( obj_t * o, char * key, void * val);
+
 
 /**
 * Cleanup a obj_t object

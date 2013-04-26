@@ -129,6 +129,7 @@ void hash_table_delete(hash_table_t *);
 */
 #define HT_ADD(table, key, val) hash_table_add(table, (void *) key, sizeof(*key), (void *) val, sizeof(*val))
 #define HT_ADD_STR(table, key, val) hash_table_add(table, (char *) key, strlen(key)+1, (void *) val, strlen(val)+1)
+#define HT_ADD_OBJ(table, key, val) hash_table_add(table, (char *) key, strlen(key)+1, (void *) val, sizeof(*val))
 
 /**
 * Function to add a key - value pair to the hash table, use HT_ADD macro

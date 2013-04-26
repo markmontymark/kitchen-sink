@@ -42,12 +42,10 @@ obj_t * obj_new_simple()
 
 void   obj_init( obj_t * o )
 {
-	printf("init obj %p\n",o);
 }
 
 void   obj_save( obj_t * o )
 {
-	printf("save obj %p\n",o);
 }
 
 void * obj_get( obj_t * o, char * key)
@@ -67,9 +65,17 @@ int *  obj_get_int(obj_t * c, char * key)
 
 void obj_set( obj_t * o, char * key, void * val)
 {
-	printf( "obj_set %p, key %s, val %s\n",o->data,key, (char*)val);
+	//printf( "obj_set %p, key %s, val %s\n",o->data,key, (char*)val);
 	HT_ADD_STR(o->data, key, (char*)val);
 }
+
+
+void obj_set_obj( obj_t * o, char * key, void * val)
+{
+	//printf( "obj_set %p, key %s, val %s\n",o->data,key, (char*)val);
+	HT_ADD_OBJ(o->data, key, val);
+}
+
 
 void obj_free(obj_t * c)
 {
@@ -81,7 +87,7 @@ void obj_free(obj_t * c)
 
 void obj_dump(obj_t * o,FILE * fp)
 {
-	printf("obj data dump\n");
+	//printf("obj data dump\n");
 	hash_table_dump(o->data,fp);
 }
 

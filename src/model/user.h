@@ -25,8 +25,40 @@ user_t * user_new();
 
 //TODO, make these static in user.c to create privary?
 void   user_init(user_t *);
+
+/**
+* A user_t object has a int * id
+* @param user_t The obj object
+* @returns int *
+*/
+int  * user_get_id( user_t * );
+
+/**
+* A user_t object has a int * id
+* @param user_t The obj object
+* @returns void
+*/
+void   user_set_id( user_t * , int * );
+
+/**
+* A user_t object has a char * name
+* @param user_t The obj object
+* @returns char *
+*/
 char * user_get_name( user_t * );
+
+/**
+* A user_t object has a char * name
+* @param user_t The obj object
+* @returns void
+*/
 void   user_set_name( user_t * , char * );
+
+/**
+* Serialiize a user_t object to disk
+* @param user_t The obj object
+* @returns void
+*/
 void   user_save(user_t *);
 
 /**
@@ -34,7 +66,7 @@ void   user_save(user_t *);
 * @param user_t The obj object
 * @returns void
 */
-void user_free(user_t * c);
+void user_free(user_t *);
 
 /**
 * Print the data of a user object to file pointer
@@ -42,6 +74,6 @@ void user_free(user_t * c);
 * @param fp The out stream to write to
 * @returns void
 */
-void user_dump(user_t * c,FILE * fp);
+void user_dump(user_t *, FILE *);
 
 #endif

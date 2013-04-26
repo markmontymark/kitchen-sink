@@ -71,26 +71,20 @@ key2 = val2
 	obj_test => 
 	{
 		name => 'Obj test',
-		regex_expected => q'/\s*init obj 0x[0-9A-Za-z]+
-created obj 0x[0-9A-Za-z]+
+		regex_expected => q'/\s*created obj 0x[0-9A-Za-z]+
 created obj data 0x[0-9A-Za-z]+
-obj_set 0x[0-9A-Za-z]+, key key1, val val1
-set key1 to val1
-key1 with getter = val1
-key1 = val1
-obj_set 0x[0-9A-Za-z]+, key key1, val val1 changed
-key1 = val1
+set [0-9A-Za-z]+ to [0-9A-Za-z]+
+[0-9A-Za-z]+ with getter = [0-9A-Za-z]+
+[0-9A-Za-z]+ = [0-9A-Za-z]+
+[0-9A-Za-z]+ = [0-9A-Za-z]+
 obj dump
 ----------
-obj data dump
 key1 = val1
 key1 = val1 changed
 ----------
-obj_set 0x[0-9A-Za-z]+, key key2, val val2
 key2 = val2
 obj dump
 ----------
-obj data dump
 key1 = val1
 key1 = val1 changed
 key2 = val2
@@ -100,13 +94,27 @@ key2 = val2
 	user_test => 
 	{
 		name => 'Model/user test',
-		regex_expected => q'/\s*init obj 0x[0-9A-Za-z]+
-created user 0x[0-9A-Za-z]+
-obj_set 0x[0-9A-Za-z]+, key name, val ken
-set user ken\s*/',
+		regex_expected => q'/\s*created user 0x[0-9A-Za-z]+
+set user \w+\s*/',
 	},
 
-	db_test => {
+	account_test => 
+	{
+		name => 'model/account test',
+		regex_expected => q'/\s*created account 0x[0-9A-Za-z]+
+set account id \d+
+set account name \w+\s*/',
+	},
+
+	## db_test is commented out by default
+	## prereqs - MySQL client libs, libmysqlclient and mysql/mysql.h
+	## If you want to run this test, first run make, then 
+	## run the ./bin-test/db_test binary as
+	##		$ ./bin-test/db_test localhost # assuming you have mysqld running on localhost
+	##		Note, you'll see two prompts, first for your mysql username and second, the user's password
+	##		So, this script doesn't print out those "User: " and "Password: " but it does block on them,
+	##		for now until I fix that.
+	commentedout_db_test => {
 		name=>'MySQL Database test',
 		args => 'localhost',
 		expected => q#User:
