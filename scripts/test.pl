@@ -106,6 +106,14 @@ set account id \d+
 set account name \w+\s*/',
 	},
 
+	org_test => 
+	{
+		name => 'Model/org test',
+		regex_expected => q'/\s*created org 0x[0-9A-Za-z]+
+set org id 1
+set org name [A-Za-z\s,]+\s*/',
+	},
+
 	## db_test is commented out by default
 	## prereqs - MySQL client libs, libmysqlclient and mysql/mysql.h
 	## If you want to run this test, first run make, then 
@@ -127,6 +135,8 @@ step4: delete simple data
 step5: drop simple table
 close mysql connection#,
 	},
+
+
 
 };
 

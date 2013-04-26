@@ -26,6 +26,7 @@ lib_objects: $O/script.o \
 	$O/str.o \
 	$O/user.o \
 	$O/account.o \
+	$O/org.o \
 	$O/run_cmd.o
 
 test_objects: $T/hashtable_test \
@@ -37,6 +38,7 @@ test_objects: $T/hashtable_test \
 	$T/obj_test \
 	$T/user_test \
 	$T/account_test \
+	$T/org_test \
 	$T/db_test
 
 init:
@@ -62,6 +64,7 @@ libso:
 	$O/str.o \
 	$O/user.o \
 	$O/account.o \
+	$O/org.o \
 	$O/run_cmd.o
 
 
@@ -78,6 +81,12 @@ $T/account_test: $O/account.o  $O/account_test.o
 
 $O/account_test.o: test/model/account_test.c 
 	gcc -fPIC -std=gnu11 -g -c test/model/account_test.c -o $O/account_test.o
+
+$T/org_test: $O/org.o  $O/org_test.o
+	gcc -fPIC -std=gnu11 -g -o $T/org_test $O/org_test.o $O/org.o $O/obj.o $O/hashtable.o -Wall
+
+$O/org_test.o: test/model/org_test.c 
+	gcc -fPIC -std=gnu11 -g -c test/model/org_test.c -o $O/org_test.o
 
 $T/obj_test: $O/obj.o  $O/obj_test.o
 	gcc -fPIC -std=gnu11 -g -o $T/obj_test $O/obj_test.o $O/obj.o $O/hashtable.o -Wall
@@ -148,6 +157,9 @@ $O/user.o: src/model/user.c
 
 $O/account.o: src/model/account.c
 	gcc -fPIC -std=gnu11 -g -c src/model/account.c -o $O/account.o
+
+$O/org.o: src/model/org.c
+	gcc -fPIC -std=gnu11 -g -c src/model/org.c -o $O/org.o
 
 $O/cfg.o: src/cfg.c
 	gcc -fPIC -std=gnu11 -g -c src/cfg.c -o $O/cfg.o
