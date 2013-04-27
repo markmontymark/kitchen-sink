@@ -56,6 +56,13 @@ char * group_get_name( group_t * );
 void   group_set_name( group_t * , char * );
 
 /**
+* A group_t object has a obj_t * of perms
+* @param group_t The obj object
+* @returns int *
+*/
+obj_t  * group_get_perms( group_t * );
+
+/**
 * A group_t object has a list of perm_t * s
 * @param group_t The obj object
 * @returns void

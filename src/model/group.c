@@ -45,33 +45,27 @@ void   group_set_name( group_t * u, char * name )
 	u->data->set(u->data, OBJ_NAME, name);
 }
 
+obj_t * group_get_perms( group_t * g )
+{
+	return g->data->get( g->data, PERMS );
+}
+
 void   group_add_perm( group_t * u , perm_t * p )
 {
-	obj_t * perms = (obj_t *)u->data->get( u->data, PERMS );
+	obj_t * perms = group_get_perms(u);
 	if(perms == NULL)
 	{
-		printf("group had no perms\n");
 		obj_set_obj( u->data, PERMS, obj_new_simple() );
 		perms = (obj_t *)u->data->get( u->data, PERMS);
-		printf("group had no perms, now perms is %p\n",u->data->get( u->data, PERMS));
-		printf("group had no perms, now perms is %p\n",perms);
 	}
 	obj_set_obj(perms, perm_get_id(p), p);
 	printf("after obj_set_obj in group_add_perm\n");
 }
 
-/**
-* A group_t object might have a perm_t *
-* @param group_t The obj object
-* @returns void
-*/
 int    group_has_perm( group_t * u, perm_t * p)
 {
-	obj_t * perms = (obj_t *)u->data->get(u->data, PERMS);
-	printf("got perms? %p\n",perms);
-	printf("looking for perm with id %s\n",perm_get_id(p) );
+	obj_t * perms = group_get_perms( u );
 	perm_t * perm = (perm_t *)perms->get(perms, perm_get_id(p) );
-	printf("was perm null? %p\n",perm );
 	return (perm != NULL);
 }
 
@@ -80,6 +74,8 @@ void group_free(group_t * u)
 {
 	if( !u )
 		return;	
+	obj_t * perms = group_get_perms( u );
+	perms->free(perms);
 	u->data->free(u->data);
    free(u);
 }

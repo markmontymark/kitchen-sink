@@ -4,9 +4,11 @@ use strict;
 use warnings;
 
 use Test::More;
+use File::Which;
 
 my $test_dir = shift;
 
+my $valgrind = File::Which::which('valgrind');
 my $cfg = 
 {
 	hashtable => {
@@ -162,16 +164,10 @@ close mysql connection#,
 		regex_expected => q'/\s*created group 0x[0-9A-Za-z]+
 set group ken
 created perm read perm
-group had no perms
 obj_set obj 0x[0-9A-Za-z]+, key perms, val 0x[0-9A-Za-z]+
-group had no perms, now perms is 0x[0-9A-Za-z]+
-group had no perms, now perms is 0x[0-9A-Za-z]+
 obj_set obj 0x[0-9A-Za-z]+, key 1, val 0x[0-9A-Za-z]+
 after obj_set_obj in group_add_perm
 added perm read perm to group ken
-got perms\? 0x[0-9A-Za-z]+
-looking for perm with id 1
-was perm null\? 0x[0-9A-Za-z]+
 group ken has perm read perm\s*$/',
 
 
@@ -191,31 +187,56 @@ sub run_tests
 {
 	my($path) = shift;
 	my($name) = $path =~ m/\/+(.*?)$/;
-	print "name $name\n";
 	unless(exists $cfg->{$name})
 	{
 		print "Found test, $path, but $name doesn't exist in test config...Skipping\n";
 		return;
 	}
-	my $t_cfg = $cfg->{$name};
-	my $t_args = exists $t_cfg->{args} ? $t_cfg->{args} : undef;
-	unless(exists $t_cfg->{expected} or exists $t_cfg->{regex_expected})
+	my $test_cfg = $cfg->{$name};
+	my $test_args = exists $test_cfg->{args} ? $test_cfg->{args} : undef;
+	unless(exists $test_cfg->{expected} or exists $test_cfg->{regex_expected})
 	{
 		print "Found test with $name but no 'expected' or 'regex_expected' is set...Skipping\n";
 		return;
 	}
 	my $cmdline = $path;
-	$cmdline .= " $t_args" if defined $t_args;
+	$cmdline .= " $test_args" if defined $test_args;
+	&basic_test($cmdline,$test_cfg);
+}
+
+sub basic_test
+{
+	my($cmdline, $test_cfg) = @_;
+	return unless exists $test_cfg->{expected} or exists $test_cfg->{regex_expected};
+	my $test_name = $test_cfg->{name};
 	my $got = &trim(join '',`$cmdline`);
-	if(exists $t_cfg->{regex_expected})
+	if(exists $test_cfg->{regex_expected})
 	{
-		like($got, $t_cfg->{regex_expected} , $name);
+		like($got, $test_cfg->{regex_expected} , $test_name);
 	}
 	else
 	{
-		is($got, &trim($t_cfg->{expected}) , $name);
+		is($got, &trim($test_cfg->{expected}) , $test_name);
 	}
 }
+
+sub valgrind_test
+{
+	my($cmdline, $test_cfg) = @_;
+	return unless defined $valgrind;
+	return unless exists $test_cfg->{expected} or exists $test_cfg->{regex_expected};
+	my $test_name = $test_cfg->{name} . ' Valgrind';
+	my $got = &trim(join '',`$valgrind -q $cmdline`);
+	if(exists $test_cfg->{regex_expected})
+	{
+		like($got, $test_cfg->{regex_expected} , $test_name);
+	}
+	else
+	{
+		is($got, &trim($test_cfg->{expected}) , $test_name);
+	}
+}
+
 
 sub trim
 {
