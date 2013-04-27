@@ -18,5 +18,13 @@ int main(int argc, char ** argv)
 	retval = str_substring(to_substr, 10, 14);
 	assert( strcmp( substr_match, retval ) == 0 );
 	free(retval);
-	//int str_indexof(char * text,char delim);
+
+	char * ix    = "This is a line with text";
+	char * ix_match = "This";
+	char * ix_match2 = "line";
+	int match_1_retval = str_indexof(ix,ix_match) ;
+	int match_2_retval = str_indexof(ix,ix_match2);
+
+	printf("Match one retval, %s found in %s at position %d\n",ix_match, ix,match_1_retval);
+	printf("Match two retval, %s found in %s at position %d\n",ix_match2,ix,match_2_retval);
 }

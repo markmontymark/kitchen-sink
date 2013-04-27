@@ -6,6 +6,9 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "../src/str.h"
+#include "../src/vendor/hashtable.h"
+
 obj_t * obj_new(
    void   (*init)(obj_t *),
    void * (*get) (obj_t *,char *),
@@ -16,7 +19,8 @@ obj_t * obj_new(
 )
 {
    obj_t * o = malloc(obj_s);
-	o->data = hash_table_new(MODE_COPY); 
+	//o->data = hash_table_new(MODE_COPY); 
+	o->data = hash_table_new(MODE_VALUEREF); 
    o->init = init;
    o->get = get;
    o->set = set;
@@ -72,7 +76,7 @@ void obj_set( obj_t * o, char * key, void * val)
 
 void obj_set_obj( obj_t * o, char * key, void * val)
 {
-	//printf( "obj_set %p, key %s, val %s\n",o->data,key, (char*)val);
+	printf( "obj_set obj %p, key %s, val %p\n", o->data, key, val);
 	HT_ADD_OBJ(o->data, key, val);
 }
 
@@ -85,11 +89,24 @@ void obj_free(obj_t * c)
 	free(c);
 }
 
+
+void obj_hash_table_dump_func(FILE * fp, void * key,void * val)
+{
+   if( val != NULL && str_indexof( (char *)key,"obj:") == 0 )
+	{
+      fprintf(fp,"%s = (obj_t)\n",(char *)key, (char *)val);
+      hash_table_iterate_file( ((obj_t*)val)->data,fp, obj_hash_table_dump_func);
+	}
+   else
+      fprintf(fp,"%s = %s\n",(char *)key, (char *)val);
+}
+
+
 void obj_dump(obj_t * o,FILE * fp)
 {
 	//printf("obj data dump\n");
-	hash_table_dump(o->data,fp);
+   hash_table_iterate_file(o->data,fp,obj_hash_table_dump_func);
+	//hash_table_dump(o->data,fp);
 }
-
 
 

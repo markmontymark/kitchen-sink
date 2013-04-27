@@ -10,6 +10,8 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include "../../src/str.h"
+#include "../../src/obj.h"
 
 // element operations
 /**
@@ -388,7 +390,12 @@ int hash_table_iterate_file(hash_table_t * table, FILE * fp, void(*func_per_elem
 
 void hash_table_dump_func(FILE * fp, void * key,void * val)
 {
-	fprintf(fp,"%s = %s\n",(char *)key, (char *)val);
+	//if( val != NULL && str_indexof( (char *)key,"obj:") == 0 )
+	//{
+		//hash_table_iterate_file( ((obj_t*)val)->data,fp,hash_table_dump_func);
+	//}
+	//else
+		fprintf(fp,"%s = %s\n",(char *)key, (char *)val);
 }
 
 void hash_table_dump(hash_table_t * table,FILE * fp)

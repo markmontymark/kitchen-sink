@@ -28,6 +28,8 @@ lib_objects: $O/script.o \
 	$O/user.o \
 	$O/account.o \
 	$O/org.o \
+	$O/perm.o \
+	$O/group.o \
 	$O/run_cmd.o
 
 test_objects: $T/hashtable \
@@ -40,6 +42,8 @@ test_objects: $T/hashtable \
 	$T/user \
 	$T/account \
 	$T/org \
+	$T/perm \
+	$T/group \
 	$T/db
 
 init:
@@ -66,37 +70,51 @@ libso:
 	$O/user.o \
 	$O/account.o \
 	$O/org.o \
+	$O/perm.o \
+	$O/group.o \
 	$O/run_cmd.o
 
 
 ## TESTS
 
 $T/user: $O/user.o  $(TO)/user.o
-	gcc -fPIC -std=gnu11 -g -o $T/user $(TO)/user.o $O/user.o $O/obj.o $O/hashtable.o -Wall
+	gcc -fPIC -std=gnu11 -g -o $T/user $(TO)/user.o $O/user.o $O/obj.o $O/hashtable.o $O/str.o -Wall
 
 $(TO)/user.o: test/model/user.c 
 	gcc -fPIC -std=gnu11 -g -c test/model/user.c -o $(TO)/user.o
 
 $T/account: $O/account.o  $(TO)/account.o
-	gcc -fPIC -std=gnu11 -g -o $T/account $(TO)/account.o $O/account.o $O/obj.o $O/hashtable.o -Wall
+	gcc -fPIC -std=gnu11 -g -o $T/account $(TO)/account.o $O/account.o $O/obj.o $O/hashtable.o $O/str.o -Wall
 
 $(TO)/account.o: test/model/account.c 
 	gcc -fPIC -std=gnu11 -g -c test/model/account.c -o $(TO)/account.o
 
 $T/org: $O/org.o  $(TO)/org.o
-	gcc -fPIC -std=gnu11 -g -o $T/org $(TO)/org.o $O/org.o $O/obj.o $O/hashtable.o -Wall
+	gcc -fPIC -std=gnu11 -g -o $T/org $(TO)/org.o $O/org.o $O/obj.o $O/hashtable.o $O/str.o -Wall
 
 $(TO)/org.o: test/model/org.c 
 	gcc -fPIC -std=gnu11 -g -c test/model/org.c -o $(TO)/org.o
 
+$T/perm: $O/perm.o  $(TO)/perm.o
+	gcc -fPIC -std=gnu11 -g -o $T/perm $(TO)/perm.o $O/perm.o $O/obj.o $O/hashtable.o $O/str.o -Wall
+
+$(TO)/perm.o: test/model/perm.c 
+	gcc -fPIC -std=gnu11 -g -c test/model/perm.c -o $(TO)/perm.o
+
+$T/group: $O/group.o  $(TO)/group.o
+	gcc -fPIC -std=gnu11 -g -o $T/group $(TO)/group.o $O/group.o $O/perm.o $O/obj.o $O/hashtable.o $O/str.o -Wall
+
+$(TO)/group.o: test/model/group.c 
+	gcc -fPIC -std=gnu11 -g -c test/model/group.c -o $(TO)/group.o
+
 $T/obj: $O/obj.o  $(TO)/obj.o
-	gcc -fPIC -std=gnu11 -g -o $T/obj $(TO)/obj.o $O/obj.o $O/hashtable.o -Wall
+	gcc -fPIC -std=gnu11 -g -o $T/obj $(TO)/obj.o $O/obj.o $O/hashtable.o $O/str.o -Wall
 
 $(TO)/obj.o: test/obj.c 
 	gcc -fPIC -std=gnu11 -g -c test/obj.c -o $(TO)/obj.o
 
 $T/cfg: $O/cfg.o  $(TO)/cfg.o
-	gcc -fPIC -std=gnu11 -g -o $T/cfg $(TO)/cfg.o $O/cfg.o $O/cfg_simple.o $O/hashtable.o -Wall
+	gcc -fPIC -std=gnu11 -g -o $T/cfg $(TO)/cfg.o $O/cfg.o $O/cfg_simple.o $O/hashtable.o $O/str.o -Wall
 
 $(TO)/cfg.o: test/cfg.c 
 	gcc -fPIC -std=gnu11 -g -c test/cfg.c -o $(TO)/cfg.o
@@ -108,7 +126,7 @@ $(TO)/str.o: test/str.c
 	gcc -fPIC -std=gnu11 -g -c test/str.c -o $(TO)/str.o
 
 $T/script: $O/script.o  $(TO)/script.o
-	gcc -fPIC -std=gnu11 -g -o $T/script $(TO)/script.o $O/script.o $O/cfg.o $O/cfg_simple.o $O/hashtable.o -Wall
+	gcc -fPIC -std=gnu11 -g -o $T/script $(TO)/script.o $O/script.o $O/cfg.o $O/cfg_simple.o $O/hashtable.o $O/str.o -Wall
 
 $(TO)/script.o: test/script.c 
 	gcc -fPIC -std=gnu11 -g -c test/script.c -o $(TO)/script.o
@@ -126,7 +144,7 @@ $(TO)/timing.o: test/timing.c src/script.h
 	gcc -fPIC -std=gnu11 -g -c test/timing.c -o $(TO)/timing.o
 
 $T/hashtable: $O/hashtable.o $(TO)/hashtable.o
-	gcc -fPIC -std=gnu11 -g -o $T/hashtable $(TO)/hashtable.o $O/hashtable.o -Isrc/vendor
+	gcc -fPIC -std=gnu11 -g -o $T/hashtable $(TO)/hashtable.o $O/hashtable.o $O/str.o -Isrc/vendor
 
 $(TO)/hashtable.o: test/data/hashtable.c 
 	gcc -fPIC -std=gnu11 -g -c test/data/hashtable.c -o $(TO)/hashtable.o -Isrc/vendor
@@ -160,6 +178,12 @@ $O/account.o: src/model/account.c
 
 $O/org.o: src/model/org.c
 	gcc -fPIC -std=gnu11 -g -c src/model/org.c -o $O/org.o
+
+$O/perm.o: src/model/perm.c
+	gcc -fPIC -std=gnu11 -g -c src/model/perm.c -o $O/perm.o
+
+$O/group.o: src/model/group.c
+	gcc -fPIC -std=gnu11 -g -c src/model/group.c -o $O/group.o
 
 $O/cfg.o: src/cfg.c
 	gcc -fPIC -std=gnu11 -g -c src/cfg.c -o $O/cfg.o

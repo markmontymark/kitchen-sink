@@ -80,5 +80,7 @@ void obj_free(obj_t * c);
 * @returns void
 */
 void obj_dump(obj_t * c,FILE * fp);
+void obj_hash_table_dump_func(FILE * fp, void * key,void * val);
+
 
 #endif

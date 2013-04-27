@@ -3,6 +3,7 @@
 
 char * str_chomp(char * line);
 char * str_substring(char * str, int start, int stop);
-int str_indexof(char * text,char delim);
+int str_indexof_char(char * text,char delim);
+int str_indexof(char * text,char * delim);
 
 #endif

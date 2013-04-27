@@ -36,7 +36,10 @@ z end
 	},
 	str => {
 		name => 'Str test',
-		expected => q##,
+		expected => q#
+Match one retval, This found in This is a line with text at position 0
+Match two retval, line found in This is a line with text at position 10
+#,
 	},
 	script => {
 		name => 'Script test',
@@ -88,7 +91,17 @@ obj dump
 key1 = val1
 key1 = val1 changed
 key2 = val2
-----------\s*/',
+----------
+obj_set obj 0x[0-9A-Za-z]+, key obj:o2, val 0x[0-9A-Za-z]+
+obj_set_obj looked up o2 \(0x[0-9A-Za-z]+\), got o2lookedup 0x[0-9A-Za-z]+
+first dump o2
+o2key = o2val
+then dump o2lookedup
+key1 = val1
+key1 = val1 changed
+key2 = val2
+obj:o2 = \(obj_t\)
+o2key = o2val\s*$/',
 	},
 
 	user => 
@@ -112,7 +125,14 @@ set account name \w+\s*/',
 		regex_expected => q'/\s*created org 0x[0-9A-Za-z]+
 set org id 1
 set org name [A-Za-z\s,]+\s*/',
-	},
+	 },
+	perm => 
+	{
+		name => 'Model/perm test',
+		regex_expected => q'/\s*created perm 0x[0-9A-Za-z]+
+set perm ken\s*$/',
+	 },
+
 
 	## db_test is commented out by default
 	## prereqs - MySQL client libs, libmysqlclient and mysql/mysql.h
@@ -135,6 +155,28 @@ step4: delete simple data
 step5: drop simple table
 close mysql connection#,
 	},
+
+	group => 
+	{
+		name => 'Model/group test',
+		regex_expected => q'/\s*created group 0x[0-9A-Za-z]+
+set group ken
+created perm read perm
+group had no perms
+obj_set obj 0x[0-9A-Za-z]+, key perms, val 0x[0-9A-Za-z]+
+group had no perms, now perms is 0x[0-9A-Za-z]+
+group had no perms, now perms is 0x[0-9A-Za-z]+
+obj_set obj 0x[0-9A-Za-z]+, key 1, val 0x[0-9A-Za-z]+
+after obj_set_obj in group_add_perm
+added perm read perm to group ken
+got perms\? 0x[0-9A-Za-z]+
+looking for perm with id 1
+was perm null\? 0x[0-9A-Za-z]+
+group ken has perm read perm\s*$/',
+
+
+	},
+
 
 
 

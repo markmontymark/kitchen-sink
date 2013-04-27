@@ -26,14 +26,30 @@ char * str_substring(char * text , int start, int stop)
    return retval;
 }
 
-int str_indexof(char * text,char delim)
+int str_indexof(char * text,char * delim)
 {
    if(text == NULL)
       return -1;
+   if(delim == NULL)
+      return -1;
    char * s = text;
-   for( int i = 0; *s; i++)
-      if(s[i] == delim)
+   char * d = delim;
+   for( int i = 0; *s; s++, i++)
+	{
+      if( *s == *d )
+		{
+			int j = i;
+			int di = 0;
+			for( int di = 0; *s; s++, d++ )
+			{
+				if( ! *d )
+					return i;
+				if( *s != *d )
+					return -1;
+			}
          return i;
+		}
+	}
    return -1;
 }
 

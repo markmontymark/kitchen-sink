@@ -28,6 +28,18 @@ int main( int argc, char ** argv)
 	obj_dump(c,stdout);
 	printf("----------\n");
 
+	obj_t * o2 = obj_new_simple();
+	obj_set(o2,"o2key","o2val");
+	obj_set_obj(c, "obj:o2",o2);
+	obj_t * o2lookedup = obj_get(c, "obj:o2");
+	printf("obj_set_obj looked up o2 (%p), got o2lookedup %p\n",o2,o2lookedup);
+	printf("first dump o2\n");
+	obj_dump(o2,stdout);
+	printf("then dump o2lookedup\n");
+	obj_dump(c,stdout);
+	
+	//obj_free(o2);
+
 	obj_free(c);
 	return 0;
 }
