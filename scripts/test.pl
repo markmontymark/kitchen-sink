@@ -94,7 +94,6 @@ key1 = val1
 key1 = val1 changed
 key2 = val2
 ----------
-obj_set obj 0x[0-9A-Za-z]+, key obj:o2, val 0x[0-9A-Za-z]+
 obj_set_obj looked up o2 \(0x[0-9A-Za-z]+\), got o2lookedup 0x[0-9A-Za-z]+
 first dump o2
 o2key = o2val
@@ -164,8 +163,6 @@ close mysql connection#,
 		regex_expected => q'/\s*created group 0x[0-9A-Za-z]+
 set group ken
 created perm read perm
-obj_set obj 0x[0-9A-Za-z]+, key perms, val 0x[0-9A-Za-z]+
-obj_set obj 0x[0-9A-Za-z]+, key 1, val 0x[0-9A-Za-z]+
 after obj_set_obj in group_add_perm
 added perm read perm to group ken
 group ken has perm read perm\s*$/',

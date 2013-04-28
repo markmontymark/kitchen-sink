@@ -211,6 +211,8 @@ int hash_table_get_keys(hash_table_t *, void **);
 
 int hash_table_iterate(hash_table_t *, void ( * func_per_element )(void *,void *));
 
+int hash_table_iterate_file(hash_table_t * table, FILE * fp, void(*func_per_element)(FILE *,void *,void *));
+
 void hash_table_dump(hash_table_t * table,FILE * fp);
 
 
