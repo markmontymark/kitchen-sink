@@ -104,6 +104,37 @@ key2 = val2
 obj:o2 = \(obj_t\)
 o2key = o2val\s*$/',
 	},
+	objn => 
+	{
+		name => 'Objn test',
+		regex_expected => q'/\s*created obj 0x[0-9A-Za-z]+
+created obj data 0x[0-9A-Za-z]+
+set [0-9A-Za-z]+ to [0-9A-Za-z]+
+[0-9A-Za-z]+ with getter = [0-9A-Za-z]+
+[0-9A-Za-z]+ = [0-9A-Za-z]+
+[0-9A-Za-z]+ = [0-9A-Za-z]+
+obj dump
+----------
+key1 = val1
+key1 = val1 changed
+----------
+key2 = val2
+obj dump
+----------
+key1 = val1
+key1 = val1 changed
+key2 = val2
+----------
+obj_set_obj looked up o2 \(0x[0-9A-Za-z]+\), got o2lookedup 0x[0-9A-Za-z]+
+first dump o2
+o2key = o2val
+then dump o2lookedup
+key1 = val1
+key1 = val1 changed
+key2 = val2
+obj:o2 = \(obj_t\)
+o2key = o2val\s*$/',
+	},
 
 	user => 
 	{

@@ -21,9 +21,11 @@ lib_objects: $O/script.o \
 	$O/ordered_tree.o \
 	$O/prompt.o \
 	$O/db.o \
-	$O/cfg.o \
 	$O/obj.o \
+	$O/cfg.o \
 	$O/cfg_simple.o \
+	$O/objn.o \
+	$O/objn_hashtable.o \
 	$O/str.o \
 	$O/user.o \
 	$O/account.o \
@@ -39,6 +41,7 @@ test_objects: $T/hashtable \
 	$T/str \
 	$T/cfg \
 	$T/obj \
+	$T/objn \
 	$T/user \
 	$T/account \
 	$T/org \
@@ -62,6 +65,8 @@ libso:
 	$O/obj.o \
 	$O/cfg.o \
 	$O/cfg_simple.o \
+	$O/objn.o \
+	$O/objn_hashtable.o \
 	$O/hashtable.o \
 	$O/ordered_tree.o \
 	$O/db.o \
@@ -118,6 +123,12 @@ $T/cfg: $O/cfg.o  $(TO)/cfg.o
 
 $(TO)/cfg.o: test/cfg.c 
 	gcc -fPIC -std=gnu11 -g -c test/cfg.c -o $(TO)/cfg.o
+
+$T/objn: $O/objn.o  $(TO)/objn.o
+	gcc -fPIC -std=gnu11 -g -o $T/objn $(TO)/objn.o $O/objn.o $O/objn_hashtable.o $O/hashtable.o $O/str.o -Wall
+
+$(TO)/objn.o: test/objn.c 
+	gcc -fPIC -std=gnu11 -g -c test/objn.c -o $(TO)/objn.o
 
 $T/str: $O/str.o  $(TO)/str.o
 	gcc -fPIC -std=gnu11 -g -o $T/str $(TO)/str.o $O/str.o -Wall
@@ -190,6 +201,12 @@ $O/cfg.o: src/cfg.c
 
 $O/cfg_simple.o: src/cfg_simple.c
 	gcc -fPIC -std=gnu11 -g -c src/cfg_simple.c -o $O/cfg_simple.o
+
+$O/objn.o: src/objn.c
+	gcc -fPIC -std=gnu11 -g -c src/objn.c -o $O/objn.o
+
+$O/objn_hashtable.o: src/objn_hashtable.c
+	gcc -fPIC -std=gnu11 -g -c src/objn_hashtable.c -o $O/objn_hashtable.o
 
 $O/hashtable.o: src/vendor/hashtable.c
 	gcc -fPIC -std=gnu11 -g -c src/vendor/hashtable.c -o $O/hashtable.o
