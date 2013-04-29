@@ -22,6 +22,7 @@ struct user {
 * @returns user_t A malloc'd user_t * object
 */
 user_t * user_new();
+void user_new_for_addr(user_t *);
 
 //TODO, make these static in user.c to create privary?
 void   user_init(user_t *);
@@ -66,6 +67,7 @@ void   user_save(user_t *);
 * @param user_t The obj object
 * @returns void
 */
+void user_for_addr_free(user_t *);
 void user_free(user_t *);
 
 /**

@@ -17,6 +17,7 @@ test: clean all
 	perl ./scripts/test.pl $T
 
 lib_objects: $O/script.o \
+	$O/timing.o \
 	$O/hashtable.o \
 	$O/ordered_tree.o \
 	$O/prompt.o \
@@ -35,6 +36,7 @@ lib_objects: $O/script.o \
 	$O/run_cmd.o
 
 test_objects: $T/hashtable \
+	$T/timing \
 	$T/script \
 	$T/ordered_tree_str \
 	$T/ordered_tree_generic \
@@ -148,8 +150,8 @@ $T/db: $O/db.o  $(TO)/db.o
 $(TO)/db.o: test/db.c 
 	gcc -fPIC -std=gnu11 -g -c test/db.c -o $(TO)/db.o
 
-$T/timing: $(TO)/timing.o $O/script.o
-	gcc -fPIC -std=gnu11 -g -o $T/timing $(TO)/timing.o $O/timing.o $O/script.o -Wall -lrt -Isrc/vendor
+$T/timing: $(TO)/timing.o 
+	gcc -fPIC -std=gnu11 -g -o $T/timing $(TO)/timing.o $O/timing.o -Wall -lrt -Isrc/vendor
 
 $(TO)/timing.o: test/timing.c src/script.h
 	gcc -fPIC -std=gnu11 -g -c test/timing.c -o $(TO)/timing.o

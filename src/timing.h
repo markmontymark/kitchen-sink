@@ -22,7 +22,7 @@
 * @param arg2 Second char * arg to function to be timed
 * @returns The time in seconds it took to run func
 */
-int timing( void * func, char * arg1, char * arg2);
+int timing( void (* func)(char *,char *), char * arg1, char * arg2);
 
 /**
 * timing a function that takes two char * args and return a char *

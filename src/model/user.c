@@ -22,6 +22,10 @@ user_t * user_new()
    u->data = obj_new_simple();
    return u;
 }
+void user_new_for_addr(user_t * u)
+{
+	u->data = obj_new_simple();
+}
 
 int  * user_get_id( user_t * u )
 {
@@ -41,6 +45,13 @@ char * user_get_name( user_t * u )
 void   user_set_name( user_t * u, char * name )
 {
 	return u->data->set(u->data, OBJ_NAME, name);
+}
+
+void user_for_addr_free(user_t * u)
+{
+	if( !u )
+		return;	
+	u->data->free(u->data);
 }
 
 void user_free(user_t * u)

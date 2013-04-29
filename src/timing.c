@@ -15,7 +15,8 @@
 
 #include "timing.h"
 
-int timing( void * func, char * arg1, char * arg2)
+
+int timing( void (* func)(char *,char*), char * arg1, char * arg2)
 {
 	printf("in timing\n");
 	for(int i = 0; i < 100; i++)

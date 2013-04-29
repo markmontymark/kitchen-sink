@@ -6,7 +6,8 @@
 #include <string.h>
 #include <errno.h>
 #include <time.h>
-#include "../src/common.h"
+
+#include "../src/timing.h"
 
 const char * USAGE = "Write a pointer based version of strcat(dest,src)";
 
@@ -18,15 +19,6 @@ char * mystrcat(char * dest, char * src) ;
 int timeval_subtract (struct timeval * result, struct timeval *x,struct timeval  *y);
 
 int main( int argc, char ** argv )
-{
-	char * progname = argv[0];
-	get_progname(progname);
-	usage(USAGE,progname);
-	impl();
-	return 0;
-}
-
-void impl( )
 {
 	char * src1 = "b";
 	char * src2 = "str2";
@@ -40,7 +32,7 @@ void impl( )
 		printf("%s\n",strerror(errno));
 	}
 
-	unsigned int times = 1000;		
+	unsigned int times = 10000000;
 	int t = timing_char_char(times, fptr, src1, src2);
 	printf("mystrcat %d iters = %d seconds\n",times,t);
 	clock_getres(CLOCK_REALTIME,&t2);
@@ -74,7 +66,6 @@ int timeval_subtract (struct timeval * result, struct timeval *x,struct timeval 
 
 char * mystrcat(char * dest, char * src) 
 {
-	printf("in mystrcat\n");
 	int dlen = strlen(dest);	
 	int slen = strlen(src);	
 	char * p = NULL;
