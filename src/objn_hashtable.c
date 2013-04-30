@@ -3,11 +3,21 @@
 #include <string.h>
 #include "vendor/hashtable.h"
 
-#include "str.h"
-#include "objn.h"
-#include "objn_hashtable.h"
+#include "../src/str.h"
+#include "../src/objn.h"
+#include "../src/objn_hashtable.h"
 
 /* simple impl */
+
+static objn_impl_t * impl;
+
+void objn_hashtable_destroy()
+{
+	if( impl != NULL )
+		free(impl);
+	impl = NULL;
+}
+
 
 void objn_hashtable_init(objn_t * c)
 {
@@ -64,18 +74,22 @@ void objn_hashtable_dump(objn_t * c,FILE * fp)
 
 objn_impl_t * objn_hashtable_impl()
 {
-	return objn_impl_new(
-		objn_hashtable_init,
-		objn_hashtable_get,
-		objn_hashtable_set,
-		objn_hashtable_save,
-		objn_hashtable_free,
-		objn_hashtable_dump
-	);
-};
-
-objn_t * objn_hashtable_new()
-{
-	return objn_new(objn_hashtable_impl());
+	if( impl == NULL )
+	{
+		impl = objn_impl_new(
+			objn_hashtable_init,
+			objn_hashtable_get,
+			objn_hashtable_set,
+			objn_hashtable_save,
+			objn_hashtable_free,
+			objn_hashtable_dump
+		);
+		if( impl == NULL )
+		{
+			fprintf(stderr, "Out of memory in objn_hashtable_impl");
+			exit(2);
+		}
+	}
+	return impl;
 }
 

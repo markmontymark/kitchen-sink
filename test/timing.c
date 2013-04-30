@@ -32,7 +32,7 @@ int main( int argc, char ** argv )
 		printf("%s\n",strerror(errno));
 	}
 
-	unsigned int times = 10000000;
+	unsigned int times = 100000;
 	int t = timing_char_char(times, fptr, src1, src2);
 	printf("mystrcat %d iters = %d seconds\n",times,t);
 	clock_getres(CLOCK_REALTIME,&t2);

@@ -9,7 +9,6 @@
 
 /* simple impl */
 
-objn_t * objn_hashtable_new();
 void   objn_hashtable_init(objn_t * c);
 void * objn_hashtable_get (objn_t * c,char * key);
 void   objn_hashtable_set (objn_t * c,char * key,void * data);
@@ -18,7 +17,8 @@ void   objn_hashtable_dump(objn_t * c,FILE * fp);
 void   objn_hashtable_dump_func(FILE * fp, void * key,void * val);
 void   objn_hashtable_free(objn_t * c);
 
-
 objn_impl_t * objn_hashtable_impl();
+void objn_hashtable_destroy();
+
 
 #endif

@@ -42,5 +42,8 @@ int main( int argc, char ** argv)
 	//obj_free(o2);
 
 	c->free(c);
+	o2->free(o2);
+	//objn_destroy();
+	//objn_hashtable_destroy();
 	return 0;
 }

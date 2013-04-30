@@ -2,12 +2,25 @@
 #include <string.h>
 #include <stdlib.h>
 #include "objn.h"
-#include "obj.h"
-#include "vendor/hashtable.h"
+#include "objn_hashtable.h"
+
+static objn_impl_t * objn_impl_hashtable;
+
+void objn_destroy()
+{
+	if(objn_impl_hashtable != NULL)
+		free( objn_impl_hashtable );
+	objn_impl_hashtable = NULL;
+}
 
 objn_t * objn_new(objn_impl_t * impl)
 {
    objn_t * c = malloc(objn_s);
+	if(c == NULL)
+	{
+		fprintf(stderr, "out of memory\n");
+		exit(2);
+	}
    c->init = impl->init;
    c->get = impl->get;
    c->set = impl->set;
@@ -17,6 +30,10 @@ objn_t * objn_new(objn_impl_t * impl)
 	if(c->init)
 		c->init(c);
    return c;
+}
+objn_t * objn_hashtable_new()
+{
+	return objn_new( objn_hashtable_impl() );
 }
 
 objn_impl_t * objn_impl_new(
@@ -29,6 +46,11 @@ objn_impl_t * objn_impl_new(
 ) 
 {
    objn_impl_t * i = malloc(objn_impl_s);
+	if(i == NULL)
+	{
+		fprintf(stderr, "out of memory\n");
+		exit(2);
+	}
 	i->init  = init;
 	i->get  = get;
 	i->set  = set;
@@ -37,44 +59,4 @@ objn_impl_t * objn_impl_new(
 	i->dump  = dump;
 	return i;
 }
-
-/*
-void * objn_get( objn_t * c, char * key)
-{
-	return c->get(c,key);
-}
-char * objn_get_str(objn_t * c, char * key)
-{
-	return (char *) c->get(c,key);
-}
-
-int *   objn_get_int(objn_t * c, char * key)
-{
-	return (int *) c->get(c,key);
-}
-
-void objn_set( objn_t * c, char * key, void * val)
-{
-	c->set(c,key,val);
-}
-void objn_set_obj( objn_t * o, char * key, void * val)
-{
-   HT_ADD_OBJ(o->data, key, val);
-}
-
-
-void objn_free(objn_t * c)
-{
-	if( !c )
-		return;	
-	if(c->free)
-		c->free(c);
-}
-
-void objn_dump(objn_t * c,FILE * fp)
-{
-	c->dump(c,fp); // TODO should be c->data
-}
-*/
-
 

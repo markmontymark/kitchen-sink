@@ -256,7 +256,7 @@ sub valgrind_test
 	return unless defined $valgrind;
 	return unless exists $test_cfg->{expected} or exists $test_cfg->{regex_expected};
 	my $test_name = $test_cfg->{name} . ' Valgrind';
-	my $got = &trim(join '',`$valgrind -q $cmdline`);
+	my $got = &trim(join '',`$valgrind -q --leak-check=full $cmdline`);
 	if(exists $test_cfg->{regex_expected})
 	{
 		like($got, $test_cfg->{regex_expected} , $test_name);
