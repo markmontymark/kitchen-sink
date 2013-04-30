@@ -197,12 +197,14 @@ created perm read perm
 after obj_set_obj in group_add_perm
 added perm read perm to group ken
 group ken has perm read perm\s*$/',
-
-
 	},
 
-
-
+	timing => 
+	{
+		name => 'Timing test',
+		regex_expected => q'/\s*mystrcat \d+ iters = \d+ seconds
+timeval \d+, \d+, \d+ and \d+ = \d+\s*$/'
+	},
 
 };
 

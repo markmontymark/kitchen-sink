@@ -7,6 +7,10 @@
 #include "cfg_simple.h"
 
 /* simple impl */
+cfg_t * cfg_simple_new()
+{
+	return cfg_new(cfg_simple_impl());
+}
 
 void cfg_simple_init(cfg_t * c)
 {
@@ -53,8 +57,4 @@ cfg_impl_t * cfg_simple_impl()
 	);
 };
 
-cfg_t * cfg_simple_new()
-{
-	return cfg_new(cfg_simple_impl());
-}
 
