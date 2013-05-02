@@ -31,6 +31,7 @@ objn_t * objn_new(objn_impl_t * impl)
 		c->init(c);
    return c;
 }
+
 objn_t * objn_hashtable_new()
 {
 	return objn_new( objn_hashtable_impl() );

@@ -131,15 +131,16 @@ static int read_line(char ** dest, int realloc_size, FILE *fp)
 static int script_read_rcfile(script_t * script)
 {
 	FILE * fp;
-	fp = fopen(script->rcfile,"rb");
+	fp = fopen((char *) script->data->get(script->data,"rcfile"),"rb");
 	if( ! fp )
 	{
-		printf("Can't open file %s. %s", script->rcfile,strerror(errno));
+		printf("Can't open file %s. %s", (char*)(script->data->get(script->data,"rcfile")),strerror(errno));
 		return 0;
 	}
 
 	char *line[1];
 	char * delim = "=";
+	char * homedir = script_get_home_dir();
 	script->cfg = cfg_simple_new();
 
 	while( read_line(line,1024,fp) != -1)
@@ -161,9 +162,9 @@ static int script_read_rcfile(script_t * script)
 			*val++;
 			char refval[1024];
 			if( *val == '/')
-				snprintf(refval,1024,"%s%s",script_get_home_dir(),val);
+				snprintf(refval,1024,"%s%s",homedir,val);
 			else
-				snprintf(refval,1024,"%s/%s",script_get_home_dir(),val);
+				snprintf(refval,1024,"%s/%s",homedir,val);
 			cfg_set(script->cfg,key,refval);
 		}
 		else
@@ -188,7 +189,7 @@ static int set_rcfile(script_t * script, char * path)
 	struct stat st;
 	if( stat(path,&st) )
 		return 0;
-	script->rcfile = strdup(path);
+	script->data->set(script->data,"rcfile", strdup(path));
 	return 1;
 }
 
@@ -202,16 +203,17 @@ static int set_rcfile(script_t * script, char * path)
 static int get_rcfile(script_t * script)
 {
 	char rcpath[1024];
+	char * homedir = script_get_home_dir();
 
-	snprintf(rcpath, 1024, "%s/.scriptrc", script_get_home_dir());
+	snprintf(rcpath, 1024, "%s/.scriptrc", homedir);
 	if(set_rcfile(script,rcpath))
 		return script_read_rcfile(script);
 
-	snprintf(rcpath,1024,"%s/.%src",script_get_home_dir(),script->progname);
+	snprintf(rcpath,1024,"%s/.%src", homedir, (char*)script->data->get(script->data,"progname"));
 	if(set_rcfile(script,rcpath))
 		return script_read_rcfile(script);
 
-	snprintf(rcpath,1024, "%s/%src", getenv("SCRIPT_HOME"), script->progname);
+	snprintf(rcpath,1024, "%s/%src", getenv("SCRIPT_HOME"), (char*) script->data->get(script->data,"progname"));
 	if(set_rcfile(script,rcpath))
 		return script_read_rcfile(script);
 
@@ -227,11 +229,14 @@ static int get_rcfile(script_t * script)
 script_t * script_new(char * name,char * usage)
 {
 	char * pname = malloc(1024);
+
 	script_get_progname(pname,name);
 	script_t * script = malloc(script_sz);
-	script->progname = pname;
-	script->usage = strdup(usage);
-	script->has_rcfile = get_rcfile(script);
+	obj_t * o = obj_new_simple();
+	script->data = o;
+	o->set(o,"progname", pname);
+	o->set(o,"usage", strdup(usage));
+	o->set(o,"has_rcfile", get_rcfile(script) ? "1" : "0");
 	return script;
 }
 
@@ -242,11 +247,9 @@ script_t * script_new(char * name,char * usage)
 */
 void script_free(script_t * script)
 {
-	if(script->has_rcfile)
+	if(script->cfg)
 		cfg_free(script->cfg);
-	free(script->progname);	
-	free(script->usage);	
-	free(script->rcfile);	
+	script->data->free(script->data);
 	free(script);
 }
 
@@ -262,7 +265,7 @@ void script_free(script_t * script)
 */
 char * script_config(script_t * script, char * key, char * defaultValue)
 {
-	if( ! script->has_rcfile)
+	if( strcmp("0",script->data->get(script->data,"has_rcfile")) == 0 )
 		return defaultValue;
 	char * val = cfg_get_str(script->cfg,key);//,strlen(key)+1);
 	if(val == NULL)
@@ -282,9 +285,9 @@ void script_usage(script_t * script)
 %s\n\
 %s\n\
 rc file: %s\n",
-		script->progname,
-		script->usage,
-		script->has_rcfile ? script->rcfile : "None"
+		(char *)script->data->get(script->data,"progname"),
+		(char *)script->data->get(script->data,"usage"),
+		(strcmp("1",script->data->get(script->data,"has_rcfile")) == 0) ? (char *)script->data->get(script->data,"rcfile") : "None"
 	);
 }
 
@@ -297,10 +300,10 @@ rc file: %s\n",
 void script_dump_rcfile(script_t * script,FILE * fp)
 {
 	fprintf(fp,"%s\nrcfile %s\n",
-		script->progname,
-		script->has_rcfile ?  script->rcfile : "None");
+		(char*)script->data->get(script->data,"progname"),
+		strcmp("1",(char*)script->data->get(script->data,"has_rcfile")) == 0 ?  (char *)script->data->get(script->data,"rcfile") : "None");
 
-	if(script->has_rcfile)
+	if(strcmp("1",(char*)script->data->get(script->data,"has_rcfile")) == 0)
 		script->cfg->dumper(script->cfg,fp);
 		
 }

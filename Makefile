@@ -49,7 +49,8 @@ test_objects: $T/hashtable \
 	$T/org \
 	$T/perm \
 	$T/group \
-	$T/db
+	$T/db \
+	$T/job_producer_consumer_hw
 
 init:
 	mkdir -p $O $B $L $T $(TO)
@@ -83,6 +84,12 @@ libso:
 
 
 ## TESTS
+
+$T/job_producer_consumer_hw: $(TO)/job_producer_consumer_hw.o
+	gcc -fPIC -std=gnu11 -g -o $T/job_producer_consumer_hw $(TO)/job_producer_consumer_hw.o -Wall -lpthread
+
+$(TO)/job_producer_consumer_hw.o: test/job_producer_consumer_hw.c 
+	gcc -fPIC -std=gnu11 -g -c test/job_producer_consumer_hw.c -o $(TO)/job_producer_consumer_hw.o
 
 $T/user: $O/user.o  $(TO)/user.o
 	gcc -fPIC -std=gnu11 -g -o $T/user $(TO)/user.o $O/user.o $O/obj.o $O/hashtable.o $O/str.o -Wall
@@ -139,7 +146,7 @@ $(TO)/str.o: test/str.c
 	gcc -fPIC -std=gnu11 -g -c test/str.c -o $(TO)/str.o
 
 $T/script: $O/script.o  $(TO)/script.o
-	gcc -fPIC -std=gnu11 -g -o $T/script $(TO)/script.o $O/script.o $O/cfg.o $O/cfg_simple.o $O/hashtable.o $O/str.o -Wall
+	gcc -fPIC -std=gnu11 -g -o $T/script $(TO)/script.o $O/script.o $O/cfg.o $O/cfg_simple.o $O/hashtable.o $O/str.o $O/obj.o -Wall
 
 $(TO)/script.o: test/script.c 
 	gcc -fPIC -std=gnu11 -g -c test/script.c -o $(TO)/script.o
