@@ -17,6 +17,7 @@ test: clean all
 	perl ./scripts/test.pl $T
 
 lib_objects: $O/script.o \
+	$O/arraylist_str.o \
 	$O/timing.o \
 	$O/hashtable.o \
 	$O/ordered_tree.o \
@@ -36,6 +37,7 @@ lib_objects: $O/script.o \
 	$O/run_cmd.o
 
 test_objects: $T/hashtable \
+	$T/arraylist_str \
 	$T/timing \
 	$T/script \
 	$T/ordered_tree_str \
@@ -65,6 +67,7 @@ doxy:
 libso:
 	gcc -shared -fPIC -Wl,-soname,libkitchensink.so.$V -o $L/libkitchensink.so.$V \
 	$O/script.o \
+	$O/arraylist_str.o \
 	$O/obj.o \
 	$O/cfg.o \
 	$O/cfg_simple.o \
@@ -84,6 +87,12 @@ libso:
 
 
 ## TESTS
+
+$T/arraylist_str: $O/arraylist_str.o  $(TO)/arraylist_str.o
+	gcc -fPIC -std=gnu11 -g -o $T/arraylist_str $(TO)/arraylist_str.o $O/arraylist_str.o -Wall
+
+$(TO)/arraylist_str.o: test/arraylist_str.c 
+	gcc -fPIC -std=gnu11 -g -c test/arraylist_str.c -o $(TO)/arraylist_str.o
 
 $T/job_producer_consumer_hw: $(TO)/job_producer_consumer_hw.o
 	gcc -fPIC -std=gnu11 -g -o $T/job_producer_consumer_hw $(TO)/job_producer_consumer_hw.o -Wall -lpthread
@@ -186,6 +195,9 @@ $(TO)/ordered_tree_generic.o: test/data/ordered_tree_generic.c src/data/ordered_
 
 
 ## LIB OBJECTS
+
+$O/arraylist_str.o: src/arraylist_str.c
+	gcc -fPIC -std=gnu11 -g -c src/arraylist_str.c -o $O/arraylist_str.o
 
 $O/str.o: src/str.c
 	gcc -fPIC -std=gnu11 -g -c src/str.c -o $O/str.o
