@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "../src/arraylist_str.h"
 
 int main( int argc, char ** argv )
