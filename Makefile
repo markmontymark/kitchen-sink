@@ -37,6 +37,7 @@ lib_objects: $O/script.o \
 	$O/run_cmd.o
 
 test_objects: $T/hashtable \
+	$T/openmp \
 	$T/arraylist_str \
 	$T/timing \
 	$T/script \
@@ -87,6 +88,12 @@ libso:
 
 
 ## TESTS
+
+$T/openmp: $(TO)/openmp.o 
+	gcc -fPIC -std=gnu11 -g -o $T/openmp $(TO)/openmp.o -fopenmp -Wall
+
+$(TO)/openmp.o: test/openmp.c 
+	gcc -fPIC -std=gnu11 -g -c test/openmp.c -o $(TO)/openmp.o
 
 $T/arraylist_str: $O/arraylist_str.o  $(TO)/arraylist_str.o
 	gcc -fPIC -std=gnu11 -g -o $T/arraylist_str $(TO)/arraylist_str.o $O/arraylist_str.o -Wall
