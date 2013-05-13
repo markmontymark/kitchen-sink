@@ -37,6 +37,7 @@ lib_objects: $O/script.o \
 	$O/run_cmd.o
 
 test_objects: $T/hashtable \
+	$T/intel_tbb \
 	$T/openmp \
 	$T/arraylist_str \
 	$T/timing \
@@ -88,6 +89,12 @@ libso:
 
 
 ## TESTS
+
+$T/intel_tbb: $(TO)/intel_tbb.o 
+	g++ -fPIC -std=c++11 -g -o $T/intel_tbb $(TO)/intel_tbb.o -ltbb -Wall
+
+$(TO)/intel_tbb.o: test/intel_tbb.cpp
+	g++ -fPIC -std=c++11 -g -c test/intel_tbb.cpp -o $(TO)/intel_tbb.o 
 
 $T/openmp: $(TO)/openmp.o 
 	gcc -fPIC -std=gnu11 -g -o $T/openmp $(TO)/openmp.o -fopenmp -Wall
