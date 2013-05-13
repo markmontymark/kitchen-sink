@@ -1,0 +1,79 @@
+{
+   "ordered_tree_generic" : {
+      "expected" : "\nTitle blah has 12 pages\naSasfsdfdsTitle blah has 14 pages\nignore has 10 pages\n",
+      "name" : "Ordered Generic Tree test"
+   },
+   "commentedout_db" : {
+      "expected" : "User:\nPassword:\nopened mysql connection\nstep1: create simple table\nstep2: insert simple table\nstep3: select from insert simple table, 1 stringy test string\nstep4: delete simple data\nstep5: drop simple table\nclose mysql connection",
+      "args" : "localhost",
+      "name" : "MySQL Database test"
+   },
+   "job_producer_consumer_hw" : {
+      "regex_expected" : "/^\\s*got \\d+\\s*got \\d+\\s*got \\d+\\s*got \\d+\\s*got \\d+\\s*got \\d+\\s*got \\d+\\s*got \\d+\\s*got \\d+\\s*got \\d+\\s*got \\d+\\s*got \\d+\\s*got \\d+\\s*got \\d+\\s*got \\d+\\s*got \\d+\\s*got \\d+\\s*got \\d+\\s*got \\d+\\s*got \\d+\\s*\\s*$/",
+      "name" : "Hello world with libpthread"
+   },
+   "intel_tbb" : {
+      "expected" : "The value of PI is 3.141593\n",
+      "name" : "Hello world with Intel Threaded building blocks"
+   },
+   "group" : {
+      "regex_expected" : "/\\s*created group 0x[0-9A-Za-z]+\nset group ken\ncreated perm read perm\nafter obj_set_obj in group_add_perm\nadded perm read perm to group ken\ngroup ken has perm read perm\\s*$/",
+      "name" : "Model/group test"
+   },
+   "arraylist_str" : {
+      "expected" : "list size: 5\nlist[0]: wowee blah blah\nlist[1]: zowee\nlist[2]: on\nlist[3]: the longest entry in the list\nlist[4]: t\nlist indexOf 2, expected on, got on, are equal? Yes\n",
+      "name" : "Arraylist str test"
+   },
+   "ordered_tree_str" : {
+      "expected" : "\nbeginning\nmiddle\nz end\n",
+      "name" : "Ordered String Tree test"
+   },
+   "hashtable" : {
+      "expected" : "\nKey NOT found 300\nfound 299 keys\nj -> 300\n*value is (nil)\n",
+      "name" : "Hashtable test"
+   },
+   "user" : {
+      "regex_expected" : "/\\s*created user 0x[0-9A-Za-z]+\nset user \\w+\\s*/",
+      "name" : "Model/user test"
+   },
+   "obj" : {
+      "regex_expected" : "/\\s*created obj 0x[0-9A-Za-z]+\ncreated obj data 0x[0-9A-Za-z]+\nset [0-9A-Za-z]+ to [0-9A-Za-z]+\n[0-9A-Za-z]+ with getter = [0-9A-Za-z]+\n[0-9A-Za-z]+ = [0-9A-Za-z]+\n[0-9A-Za-z]+ = [0-9A-Za-z]+\nobj dump\n----------\nkey1 = val1\nkey1 = val1 changed\n----------\nkey2 = val2\nobj dump\n----------\nkey1 = val1\nkey1 = val1 changed\nkey2 = val2\n----------\nobj_set_obj looked up o2 \\(0x[0-9A-Za-z]+\\), got o2lookedup 0x[0-9A-Za-z]+\nfirst dump o2\no2key = o2val\nthen dump o2lookedup\nkey1 = val1\nkey1 = val1 changed\nkey2 = val2\nobj:o2 = \\(obj_t\\)\no2key = o2val\\s*$/",
+      "name" : "Obj test"
+   },
+   "script" : {
+      "expected" : "\nscript_get_progname end script\nscript\nrcfile None\nLooking up \"sc_dir\", w/ default value \"shouldn't be used\": returned: shouldn't be used\nLooking up \"asdfasdf\", w/ default value \"should be used\": returned: should be used\n",
+      "name" : "Script test"
+   },
+   "str" : {
+      "expected" : "\nMatch one retval, This found in This is a line with text at position 0\nMatch two retval, line found in This is a line with text at position 10\n",
+      "name" : "Str test"
+   },
+   "org" : {
+      "regex_expected" : "/\\s*created org 0x[0-9A-Za-z]+\nset org id 1\nset org name [A-Za-z\\s,]+\\s*/",
+      "name" : "Model/org test"
+   },
+   "account" : {
+      "regex_expected" : "/\\s*created account 0x[0-9A-Za-z]+\nset account id \\d+\nset account name \\w+\\s*/",
+      "name" : "model/account test"
+   },
+   "openmp" : {
+      "expected" : "The value of PI is 3.141593\n",
+      "name" : "Hello world with OpenMP"
+   },
+   "cfg" : {
+      "regex_expected" : "/\\s*created cfg 0x[0-9A-Za-z]+\ncreated cfg data 0x[0-9A-Za-z]+\nkey1 = val1\nkey1 = val1\ncfg dump\n----------\nkey1 = val1\nkey1 = val1 changed\n----------\nkey2 = val2\ncfg dump\n----------\nkey1 = val1\nkey1 = val1 changed\nkey2 = val2\n----------\\s*/",
+      "name" : "Cfg test"
+   },
+   "timing" : {
+      "regex_expected" : "/\\s*mystrcat \\d+ iters = \\d+ seconds\ntimeval \\d+, \\d+, \\d+ and \\d+ = \\d+\\s*$/",
+      "name" : "Timing test"
+   },
+   "objn" : {
+      "regex_expected" : "/\\s*created obj 0x[0-9A-Za-z]+\ncreated obj data 0x[0-9A-Za-z]+\nset [0-9A-Za-z]+ to [0-9A-Za-z]+\n[0-9A-Za-z]+ with getter = [0-9A-Za-z]+\n[0-9A-Za-z]+ = [0-9A-Za-z]+\n[0-9A-Za-z]+ = [0-9A-Za-z]+\nobj dump\n----------\nkey1 = val1\nkey1 = val1 changed\n----------\nkey2 = val2\nobj dump\n----------\nkey1 = val1\nkey1 = val1 changed\nkey2 = val2\n----------\nobj_set_obj looked up o2 \\(0x[0-9A-Za-z]+\\), got o2lookedup 0x[0-9A-Za-z]+\nfirst dump o2\no2key = o2val\nthen dump o2lookedup\nkey1 = val1\nkey1 = val1 changed\nkey2 = val2\nobj:o2 = \\(obj_t\\)\no2key = o2val\\s*$/",
+      "name" : "Objn test"
+   },
+   "perm" : {
+      "regex_expected" : "/\\s*created perm 0x[0-9A-Za-z]+\nset perm ken\\s*$/",
+      "name" : "Model/perm test"
+   }
+}

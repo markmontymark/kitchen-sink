@@ -14,7 +14,7 @@ TEST_COMPILE = gcc -g -std=gnu11 -c -fPIC
 all: init lib_objects test_objects libso
 cleanall: clean all
 test: clean all
-	perl ./scripts/test.pl $T
+	perl ./scripts/ctest.pl test/ctest.json $T
 
 lib_objects: $O/script.o \
 	$O/arraylist_str.o \
