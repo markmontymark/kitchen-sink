@@ -14,10 +14,6 @@ class GrainTest
 	void operator()( const tbb::blocked_range<size_t>& r ) const 
 	{ 
 		std::cout << r.begin() << std::endl;
-		for (long i=r.begin(); i!=r.end(); ++i ) 
-		{
-			set3[i] = (set1[i] * set2[i]) / 2.0 + set2[i];
-		}
 	}
 };
 

@@ -39,6 +39,7 @@ lib_objects: $O/script.o \
 test_objects: $T/hashtable \
 	$T/intel_tbb \
 	$T/intel_tbb_parallel_for \
+	$T/intel_tbb_parallel_for_w_boost_lambda \
 	$T/openmp \
 	$T/arraylist_str \
 	$T/timing \
@@ -90,6 +91,12 @@ libso:
 
 
 ## TESTS
+
+$T/intel_tbb_parallel_for_w_boost_lambda: $(TO)/intel_tbb_parallel_for_w_boost_lambda.o 
+	g++ -fPIC -std=c++11 -g -o $T/intel_tbb_parallel_for_w_boost_lambda $(TO)/intel_tbb_parallel_for_w_boost_lambda.o -ltbb -Wall
+
+$(TO)/intel_tbb_parallel_for_w_boost_lambda.o: test/intel_tbb_parallel_for_w_boost_lambda.cpp
+	g++ -fPIC -std=c++11 -g -c test/intel_tbb_parallel_for_w_boost_lambda.cpp -o $(TO)/intel_tbb_parallel_for_w_boost_lambda.o 
 
 $T/intel_tbb_parallel_for: $(TO)/intel_tbb_parallel_for.o 
 	g++ -fPIC -std=c++11 -g -o $T/intel_tbb_parallel_for $(TO)/intel_tbb_parallel_for.o -ltbb -Wall
