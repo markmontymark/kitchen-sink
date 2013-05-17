@@ -18,6 +18,7 @@ test: clean all
 
 lib_objects: $O/script.o \
 	$O/arraylist_str.o \
+	$O/arraylist_string.o \
 	$O/timing.o \
 	$O/hashtable.o \
 	$O/ordered_tree.o \
@@ -39,9 +40,10 @@ lib_objects: $O/script.o \
 test_objects: $T/hashtable \
 	$T/intel_tbb \
 	$T/intel_tbb_parallel_for \
-	$T/intel_tbb_parallel_for_w_boost_lambda \
+	$T/intel_tbb_parallel_for_w_lambda \
 	$T/openmp \
 	$T/arraylist_str \
+	$T/arraylist_string \
 	$T/timing \
 	$T/script \
 	$T/ordered_tree_str \
@@ -72,6 +74,7 @@ libso:
 	gcc -shared -fPIC -Wl,-soname,libkitchensink.so.$V -o $L/libkitchensink.so.$V \
 	$O/script.o \
 	$O/arraylist_str.o \
+	$O/arraylist_string.o \
 	$O/obj.o \
 	$O/cfg.o \
 	$O/cfg_simple.o \
@@ -92,11 +95,11 @@ libso:
 
 ## TESTS
 
-$T/intel_tbb_parallel_for_w_boost_lambda: $(TO)/intel_tbb_parallel_for_w_boost_lambda.o 
-	g++ -fPIC -std=c++11 -g -o $T/intel_tbb_parallel_for_w_boost_lambda $(TO)/intel_tbb_parallel_for_w_boost_lambda.o -ltbb -Wall
+$T/intel_tbb_parallel_for_w_lambda: $(TO)/intel_tbb_parallel_for_w_lambda.o 
+	g++ -fPIC -std=c++11 -g -o $T/intel_tbb_parallel_for_w_lambda $(TO)/intel_tbb_parallel_for_w_lambda.o -ltbb -Wall
 
-$(TO)/intel_tbb_parallel_for_w_boost_lambda.o: test/intel_tbb_parallel_for_w_boost_lambda.cpp
-	g++ -fPIC -std=c++11 -g -c test/intel_tbb_parallel_for_w_boost_lambda.cpp -o $(TO)/intel_tbb_parallel_for_w_boost_lambda.o 
+$(TO)/intel_tbb_parallel_for_w_lambda.o: test/intel_tbb_parallel_for_w_lambda.cpp
+	g++ -fPIC -std=c++11 -g -c test/intel_tbb_parallel_for_w_lambda.cpp -o $(TO)/intel_tbb_parallel_for_w_lambda.o 
 
 $T/intel_tbb_parallel_for: $(TO)/intel_tbb_parallel_for.o 
 	g++ -fPIC -std=c++11 -g -o $T/intel_tbb_parallel_for $(TO)/intel_tbb_parallel_for.o -ltbb -Wall
@@ -115,6 +118,12 @@ $T/openmp: $(TO)/openmp.o
 
 $(TO)/openmp.o: test/openmp.c 
 	gcc -fPIC -std=gnu11 -g -c test/openmp.c -o $(TO)/openmp.o
+
+$T/arraylist_string: $O/arraylist_string.o  $(TO)/arraylist_string.o
+	gcc -fPIC -std=gnu11 -g -o $T/arraylist_string $(TO)/arraylist_string.o $O/arraylist_string.o -Wall
+
+$(TO)/arraylist_string.o: test/arraylist_string.c 
+	gcc -fPIC -std=gnu11 -g -c test/arraylist_string.c -o $(TO)/arraylist_string.o
 
 $T/arraylist_str: $O/arraylist_str.o  $(TO)/arraylist_str.o
 	gcc -fPIC -std=gnu11 -g -o $T/arraylist_str $(TO)/arraylist_str.o $O/arraylist_str.o -Wall
@@ -223,6 +232,9 @@ $(TO)/ordered_tree_generic.o: test/data/ordered_tree_generic.c src/data/ordered_
 
 
 ## LIB OBJECTS
+
+$O/arraylist_string.o: src/arraylist_string.c
+	gcc -fPIC -std=gnu11 -g -c src/arraylist_string.c -o $O/arraylist_string.o
 
 $O/arraylist_str.o: src/arraylist_str.c
 	gcc -fPIC -std=gnu11 -g -c src/arraylist_str.c -o $O/arraylist_str.o
