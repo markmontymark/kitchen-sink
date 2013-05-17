@@ -13,6 +13,11 @@ void objn_destroy()
 	objn_impl_hashtable = NULL;
 }
 
+int objn_compare(objn_t * a, objn_t * b)
+{
+	return a == b;
+}
+
 objn_t * objn_new(objn_impl_t * impl)
 {
    objn_t * c = malloc(objn_s);

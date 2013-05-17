@@ -38,6 +38,7 @@ struct objn_impl {
 //objn_t * objn_new(objn_impl_t * impl);
 objn_t * objn_hashtable_new();
 void objn_destroy();
+int objn_compare(objn_t *,objn_t *);
 
 /**
 * Create a objn_impl_t object to define an implementation for a objn_t to get/set/free/dump config data

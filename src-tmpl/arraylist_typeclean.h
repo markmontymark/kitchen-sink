@@ -3,8 +3,8 @@
 
 #include <stdio.h>
 
-typedef struct arraylist_str arraylist_%typeclean%_t;
-struct arraylist_str
+typedef struct arraylist_%typeclean% arraylist_%typeclean%_t;
+struct arraylist_%typeclean%
 {
 	int size;
 	%type%* data; // tricky substitution -- data is always a ptr to the type

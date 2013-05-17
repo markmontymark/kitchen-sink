@@ -17,6 +17,8 @@ test: clean all
 	perl ./scripts/ctest.pl test/ctest.json $T
 
 lib_objects: $O/script.o \
+	$O/arraylist_objn.o \
+	$O/arraylist_int_ptr.o \
 	$O/arraylist_str.o \
 	$O/arraylist_string.o \
 	$O/timing.o \
@@ -42,6 +44,8 @@ test_objects: $T/hashtable \
 	$T/intel_tbb_parallel_for \
 	$T/intel_tbb_parallel_for_w_lambda \
 	$T/openmp \
+	$T/arraylist_objn \
+	$T/arraylist_int_ptr \
 	$T/arraylist_str \
 	$T/arraylist_string \
 	$T/timing \
@@ -73,6 +77,8 @@ doxy:
 libso:
 	gcc -shared -fPIC -Wl,-soname,libkitchensink.so.$V -o $L/libkitchensink.so.$V \
 	$O/script.o \
+	$O/arraylist_objn.o \
+	$O/arraylist_int_ptr.o \
 	$O/arraylist_str.o \
 	$O/arraylist_string.o \
 	$O/obj.o \
@@ -118,6 +124,18 @@ $T/openmp: $(TO)/openmp.o
 
 $(TO)/openmp.o: test/openmp.c 
 	gcc -fPIC -std=gnu11 -g -c test/openmp.c -o $(TO)/openmp.o
+
+$T/arraylist_objn: $O/arraylist_objn.o  $(TO)/arraylist_objn.o
+	gcc -fPIC -std=gnu11 -g -o $T/arraylist_objn $(TO)/arraylist_objn.o $O/arraylist_objn.o $O/objn.o $O/objn_hashtable.o $O/str.o $O/hashtable.o -Wall
+
+$(TO)/arraylist_objn.o: test/arraylist_objn.c 
+	gcc -fPIC -std=gnu11 -g -c test/arraylist_objn.c -o $(TO)/arraylist_objn.o
+
+$T/arraylist_int_ptr: $O/arraylist_int_ptr.o  $(TO)/arraylist_int_ptr.o
+	gcc -fPIC -std=gnu11 -g -o $T/arraylist_int_ptr $(TO)/arraylist_int_ptr.o $O/arraylist_int_ptr.o -Wall
+
+$(TO)/arraylist_int_ptr.o: test/arraylist_int_ptr.c 
+	gcc -fPIC -std=gnu11 -g -c test/arraylist_int_ptr.c -o $(TO)/arraylist_int_ptr.o
 
 $T/arraylist_string: $O/arraylist_string.o  $(TO)/arraylist_string.o
 	gcc -fPIC -std=gnu11 -g -o $T/arraylist_string $(TO)/arraylist_string.o $O/arraylist_string.o -Wall
@@ -232,6 +250,12 @@ $(TO)/ordered_tree_generic.o: test/data/ordered_tree_generic.c src/data/ordered_
 
 
 ## LIB OBJECTS
+
+$O/arraylist_objn.o: src/arraylist_objn.c
+	gcc -fPIC -std=gnu11 -g -c src/arraylist_objn.c -o $O/arraylist_objn.o
+
+$O/arraylist_int_ptr.o: src/arraylist_int_ptr.c
+	gcc -fPIC -std=gnu11 -g -c src/arraylist_int_ptr.c -o $O/arraylist_int_ptr.o
 
 $O/arraylist_string.o: src/arraylist_string.c
 	gcc -fPIC -std=gnu11 -g -c src/arraylist_string.c -o $O/arraylist_string.o

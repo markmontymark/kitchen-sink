@@ -36,6 +36,10 @@
       "expected" : "list size: 5\nlist[0]: wowee blah blah\nlist[1]: zowee\nlist[2]: on\nlist[3]: the longest entry in the list\nlist[4]: t\nlist indexOf 2, expected on, got on, are equal? Yes\n",
       "name" : "Arraylist string test"
    },
+   "arraylist_int_ptr" : {
+      "expected" : "list size: 6\nlist[0]: 1\nlist[1]: 10\nlist[2]: 100\nlist[3]: 2000\nlist[4]: 20\nlist[5]: 2\nlist indexOf 2, expected 100, got 100, are equal? Yes\n",
+      "name" : "Arraylist int_ptr test"
+   },
    "ordered_tree_str" : {
       "expected" : "\nbeginning\nmiddle\nz end\n",
       "name" : "Ordered String Tree test"
