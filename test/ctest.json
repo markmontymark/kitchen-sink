@@ -17,7 +17,7 @@
       "name" : "Hello world with Intel Threaded building blocks"
    },
    "intel_tbb_parallel_for" : {
-      "expected" : "0\n78\n156\n234\n312\n390\n468\n546\n625\n703\n781\n859\n937\n1015\n1093\n1171\n1250\n1328\n1406\n1484\n1562\n1640\n1718\n1796\n1875\n1953\n2031\n2109\n2187\n2265\n2343\n2421\n2500\n2578\n2656\n2734\n2812\n2890\n2968\n3046\n3125\n3203\n3281\n3359\n3437\n3515\n3593\n3671\n3750\n3828\n3906\n3984\n4062\n4140\n4218\n4296\n4375\n4453\n4531\n4609\n4687\n4765\n4843\n4921\n",
+      "regex_expected" : "/(?:\\s*\\d+\\s*){64}/m",
       "name" : "Hello world with Intel Threaded building blocks using Parallel for "
    },
    "intel_tbb_parallel_for_w_lambda" : {
@@ -91,5 +91,9 @@
    "perm" : {
       "regex_expected" : "/\\s*created perm 0x[0-9A-Za-z]+\nset perm ken\\s*$/",
       "name" : "Model/perm test"
+   },
+   "arraylist_int" : {
+      "expected" : "list size: 10\nlist[0]: 10\nlist[1]: 100\nlist[2]: 1000\nlist[3]: 10000\nlist[4]: 100000\nlist[5]: 10\nlist[6]: 100\nlist[7]: 2000\nlist[8]: 20\nlist[9]: 2\nlist indexOf 6, expected 100, got 100, are equal? Yes\n",
+      "name" : "Arraylist int test"
    }
 }

@@ -13,11 +13,12 @@ TEST_COMPILE = gcc -g -std=gnu11 -c -fPIC
 
 all: init lib_objects test_objects libso
 cleanall: clean all
-test: clean all
+test: all
 	perl ./scripts/ctest.pl test/ctest.json $T
 
 lib_objects: $O/script.o \
 	$O/arraylist_objn.o \
+	$O/arraylist_int.o \
 	$O/arraylist_int_ptr.o \
 	$O/arraylist_str.o \
 	$O/arraylist_string.o \
@@ -40,11 +41,13 @@ lib_objects: $O/script.o \
 	$O/run_cmd.o
 
 test_objects: $T/hashtable \
+	$T/omp_mapreduce_friendlynumbers \
 	$T/intel_tbb \
 	$T/intel_tbb_parallel_for \
 	$T/intel_tbb_parallel_for_w_lambda \
 	$T/openmp \
 	$T/arraylist_objn \
+	$T/arraylist_int \
 	$T/arraylist_int_ptr \
 	$T/arraylist_str \
 	$T/arraylist_string \
@@ -78,6 +81,7 @@ libso:
 	gcc -shared -fPIC -Wl,-soname,libkitchensink.so.$V -o $L/libkitchensink.so.$V \
 	$O/script.o \
 	$O/arraylist_objn.o \
+	$O/arraylist_int.o \
 	$O/arraylist_int_ptr.o \
 	$O/arraylist_str.o \
 	$O/arraylist_string.o \
@@ -100,6 +104,12 @@ libso:
 
 
 ## TESTS
+
+$T/omp_mapreduce_friendlynumbers: $(TO)/omp_mapreduce_friendlynumbers.o 
+	g++ -fPIC -g -o $T/omp_mapreduce_friendlynumbers $(TO)/omp_mapreduce_friendlynumbers.o -fopenmp -Wall
+
+$(TO)/omp_mapreduce_friendlynumbers.o: test/omp_mapreduce_friendlynumbers.cpp
+	g++ -fPIC -g -c test/omp_mapreduce_friendlynumbers.cpp -o $(TO)/omp_mapreduce_friendlynumbers.o 
 
 $T/intel_tbb_parallel_for_w_lambda: $(TO)/intel_tbb_parallel_for_w_lambda.o 
 	g++ -fPIC -std=c++11 -g -o $T/intel_tbb_parallel_for_w_lambda $(TO)/intel_tbb_parallel_for_w_lambda.o -ltbb -Wall
@@ -130,6 +140,12 @@ $T/arraylist_objn: $O/arraylist_objn.o  $(TO)/arraylist_objn.o
 
 $(TO)/arraylist_objn.o: test/arraylist_objn.c 
 	gcc -fPIC -std=gnu11 -g -c test/arraylist_objn.c -o $(TO)/arraylist_objn.o
+
+$T/arraylist_int: $O/arraylist_int.o  $(TO)/arraylist_int.o
+	gcc -fPIC -std=gnu11 -g -o $T/arraylist_int $(TO)/arraylist_int.o $O/arraylist_int.o -Wall
+
+$(TO)/arraylist_int.o: test/arraylist_int.c 
+	gcc -fPIC -std=gnu11 -g -c test/arraylist_int.c -o $(TO)/arraylist_int.o
 
 $T/arraylist_int_ptr: $O/arraylist_int_ptr.o  $(TO)/arraylist_int_ptr.o
 	gcc -fPIC -std=gnu11 -g -o $T/arraylist_int_ptr $(TO)/arraylist_int_ptr.o $O/arraylist_int_ptr.o -Wall
@@ -253,6 +269,9 @@ $(TO)/ordered_tree_generic.o: test/data/ordered_tree_generic.c src/data/ordered_
 
 $O/arraylist_objn.o: src/arraylist_objn.c
 	gcc -fPIC -std=gnu11 -g -c src/arraylist_objn.c -o $O/arraylist_objn.o
+
+$O/arraylist_int.o: src/arraylist_int.c
+	gcc -fPIC -std=gnu11 -g -c src/arraylist_int.c -o $O/arraylist_int.o
 
 $O/arraylist_int_ptr.o: src/arraylist_int_ptr.c
 	gcc -fPIC -std=gnu11 -g -c src/arraylist_int_ptr.c -o $O/arraylist_int_ptr.o

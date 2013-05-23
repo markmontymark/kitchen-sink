@@ -18,7 +18,21 @@ int main( int argc, char ** argv )
 	int f = 2;
 	int *f_ptr = &f;
 
+	int i = 0;
+
 	arraylist_int_ptr_t * list = arraylist_int_ptr_new();
+
+/*
+		This doesn't work because int_ptr only stores ptrs to ints
+	int n = 1;
+	for(i = 0; i < 5; i++ )
+	{
+		n *= 10;
+		arraylist_int_ptr_add(list,&n);
+	}
+*/
+
+	// This works if using code wants to change b_ptr value elsewhere and have that change be reflected in some other arraylist storing b_ptr
 	arraylist_int_ptr_add(list,a_ptr);
 	arraylist_int_ptr_add(list,b_ptr);
 	arraylist_int_ptr_add(list,c_ptr);
