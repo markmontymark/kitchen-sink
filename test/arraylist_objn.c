@@ -19,7 +19,7 @@ int main( int argc, char ** argv )
 	printf("list size: %d\n", 	sz );
 	for(int i = 0; i < sz; i++ )
 	{
-		printf("list[%d]: %p\n", i, arraylist_objn_get( list, i ) );	
+		printf("list %d: %p\n", i, arraylist_objn_get( list, i ) );	
 	}
 
 	printf("list indexOf %d, expected %p, got %p, are equal? %s\n", 

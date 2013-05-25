@@ -17,7 +17,7 @@
       "name" : "Hello world with Intel Threaded building blocks"
    },
    "intel_tbb_parallel_for" : {
-      "regex_expected" : "/(?:\\s*\\d+\\s*){64}/m",
+      "regex_expected" : "/(\\s*\\d+\\s*){64}/",
       "name" : "Hello world with Intel Threaded building blocks using Parallel for "
    },
    "intel_tbb_parallel_for_w_lambda" : {
@@ -25,7 +25,7 @@
       "name" : "Hello world with Intel Threaded building blocks using Parallel for and a lambda"
    },
    "group" : {
-      "regex_expected" : "/\\s*created group 0x[0-9A-Za-z]+\nset group ken\ncreated perm read perm\nafter obj_set_obj in group_add_perm\nadded perm read perm to group ken\ngroup ken has perm read perm\\s*$/",
+      "regex_expected" : "/^\\s*created group 0x[0-9A-Za-z]+\nset group ken\ncreated perm read perm\nafter obj_set_obj in group_add_perm\nadded perm read perm to group ken\ngroup ken has perm read perm\\s*$/",
       "name" : "Model/group test"
    },
    "arraylist_str" : {
@@ -49,11 +49,11 @@
       "name" : "Hashtable test"
    },
    "user" : {
-      "regex_expected" : "/\\s*created user 0x[0-9A-Za-z]+\nset user \\w+\\s*/",
+      "regex_expected" : "/^\\s*created user 0x[0-9A-Za-z]+\nset user \\w+\\s*/",
       "name" : "Model/user test"
    },
    "obj" : {
-      "regex_expected" : "/\\s*created obj 0x[0-9A-Za-z]+\ncreated obj data 0x[0-9A-Za-z]+\nset [0-9A-Za-z]+ to [0-9A-Za-z]+\n[0-9A-Za-z]+ with getter = [0-9A-Za-z]+\n[0-9A-Za-z]+ = [0-9A-Za-z]+\n[0-9A-Za-z]+ = [0-9A-Za-z]+\nobj dump\n----------\nkey1 = val1\nkey1 = val1 changed\n----------\nkey2 = val2\nobj dump\n----------\nkey1 = val1\nkey1 = val1 changed\nkey2 = val2\n----------\nobj_set_obj looked up o2 \\(0x[0-9A-Za-z]+\\), got o2lookedup 0x[0-9A-Za-z]+\nfirst dump o2\no2key = o2val\nthen dump o2lookedup\nkey1 = val1\nkey1 = val1 changed\nkey2 = val2\nobj:o2 = \\(obj_t\\)\no2key = o2val\\s*$/",
+      "regex_expected" : "/^\\s*created obj 0x[0-9A-Za-z]+\ncreated obj data 0x[0-9A-Za-z]+\nset [0-9A-Za-z]+ to [0-9A-Za-z]+\n[0-9A-Za-z]+ with getter = [0-9A-Za-z]+\n[0-9A-Za-z]+ = [0-9A-Za-z]+\n[0-9A-Za-z]+ = [0-9A-Za-z]+\nobj dump\n----------\nkey1 = val1\nkey1 = val1 changed\n----------\nkey2 = val2\nobj dump\n----------\nkey1 = val1\nkey1 = val1 changed\nkey2 = val2\n----------\nobj_set_obj looked up o2 \\(0x[0-9A-Za-z]+\\), got o2lookedup 0x[0-9A-Za-z]+\nfirst dump o2\no2key = o2val\nthen dump o2lookedup\nkey1 = val1\nkey1 = val1 changed\nkey2 = val2\nobj:o2 = \\(obj_t\\)\no2key = o2val\\s*$/",
       "name" : "Obj test"
    },
    "script" : {
@@ -65,11 +65,11 @@
       "name" : "Str test"
    },
    "org" : {
-      "regex_expected" : "/\\s*created org 0x[0-9A-Za-z]+\nset org id 1\nset org name [A-Za-z\\s,]+\\s*/",
+      "regex_expected" : "/^\\s*created org 0x[0-9A-Za-z]+\nset org id 1\nset org name [A-Za-z\\s,]+\\s*/",
       "name" : "Model/org test"
    },
    "account" : {
-      "regex_expected" : "/\\s*created account 0x[0-9A-Za-z]+\nset account id \\d+\nset account name \\w+\\s*/",
+      "regex_expected" : "/^\\s*created account 0x[0-9A-Za-z]+\nset account id \\d+\nset account name \\w+\\s*/",
       "name" : "model/account test"
    },
    "openmp" : {
@@ -77,23 +77,39 @@
       "name" : "Hello world with OpenMP"
    },
    "cfg" : {
-      "regex_expected" : "/\\s*created cfg 0x[0-9A-Za-z]+\ncreated cfg data 0x[0-9A-Za-z]+\nkey1 = val1\nkey1 = val1\ncfg dump\n----------\nkey1 = val1\nkey1 = val1 changed\n----------\nkey2 = val2\ncfg dump\n----------\nkey1 = val1\nkey1 = val1 changed\nkey2 = val2\n----------\\s*/",
+      "regex_expected" : "/created cfg 0x[0-9A-Za-z]+\ncreated cfg data 0x[0-9A-Za-z]+\nkey1 = val1\nkey1 = val1\ncfg dump\n----------\nkey1 = val1\nkey1 = val1 changed\n----------\nkey2 = val2\ncfg dump\n----------\nkey1 = val1\nkey1 = val1 changed\nkey2 = val2\n----------\\s*/",
       "name" : "Cfg test"
    },
    "timing" : {
-      "regex_expected" : "/\\s*mystrcat \\d+ iters = \\d+ seconds\ntimeval \\d+, \\d+, \\d+ and \\d+ = \\d+\\s*$/",
+      "regex_expected" : "/^\\s*mystrcat \\d+ iters = \\d+ seconds\ntimeval \\d+, \\d+, \\d+ and \\d+ = \\d+\\s*$/",
       "name" : "Timing test"
    },
    "objn" : {
-      "regex_expected" : "/\\s*created obj 0x[0-9A-Za-z]+\ncreated obj data 0x[0-9A-Za-z]+\nset [0-9A-Za-z]+ to [0-9A-Za-z]+\n[0-9A-Za-z]+ with getter = [0-9A-Za-z]+\n[0-9A-Za-z]+ = [0-9A-Za-z]+\n[0-9A-Za-z]+ = [0-9A-Za-z]+\nobj dump\n----------\nkey1 = val1\nkey1 = val1 changed\n----------\nkey2 = val2\nobj dump\n----------\nkey1 = val1\nkey1 = val1 changed\nkey2 = val2\n----------\nobj_set_obj looked up o2 \\(0x[0-9A-Za-z]+\\), got o2lookedup 0x[0-9A-Za-z]+\nfirst dump o2\no2key = o2val\nthen dump o2lookedup\nkey1 = val1\nkey1 = val1 changed\nkey2 = val2\nobj:o2 = \\(obj_t\\)\no2key = o2val\\s*$/",
+      "regex_expected" : "/^\\s*created obj 0x[0-9A-Za-z]+\ncreated obj data 0x[0-9A-Za-z]+\nset [0-9A-Za-z]+ to [0-9A-Za-z]+\n[0-9A-Za-z]+ with getter = [0-9A-Za-z]+\n[0-9A-Za-z]+ = [0-9A-Za-z]+\n[0-9A-Za-z]+ = [0-9A-Za-z]+\nobj dump\n----------\nkey1 = val1\nkey1 = val1 changed\n----------\nkey2 = val2\nobj dump\n----------\nkey1 = val1\nkey1 = val1 changed\nkey2 = val2\n----------\nobj_set_obj looked up o2 \\(0x[0-9A-Za-z]+\\), got o2lookedup 0x[0-9A-Za-z]+\nfirst dump o2\no2key = o2val\nthen dump o2lookedup\nkey1 = val1\nkey1 = val1 changed\nkey2 = val2\nobj:o2 = \\(obj_t\\)\no2key = o2val\\s*$/",
       "name" : "Objn test"
    },
    "perm" : {
-      "regex_expected" : "/\\s*created perm 0x[0-9A-Za-z]+\nset perm ken\\s*$/",
+      "regex_expected" : "/^\\s*created perm 0x[0-9A-Za-z]+\nset perm ken\\s*$/",
       "name" : "Model/perm test"
    },
    "arraylist_int" : {
       "expected" : "list size: 10\nlist[0]: 10\nlist[1]: 100\nlist[2]: 1000\nlist[3]: 10000\nlist[4]: 100000\nlist[5]: 10\nlist[6]: 100\nlist[7]: 2000\nlist[8]: 20\nlist[9]: 2\nlist indexOf 6, expected 100, got 100, are equal? Yes\n",
       "name" : "Arraylist int test"
+   },
+   "arraylist_double" : {
+      "expected" : "list size: 10\nlist[0]: 10.000000\nlist[1]: 100.000000\nlist[2]: 1000.000000\nlist[3]: 10000.000000\nlist[4]: 100000.000000\nlist[5]: 10.000000\nlist[6]: 100.000000\nlist[7]: 2000.000000\nlist[8]: 20.000000\nlist[9]: 2.000000\nlist indexOf 6, expected 100.000000, got 100.000000, are equal? Yes\n",
+      "name" : "Arraylist double test"
+   },
+   "arraylist_objn" : {
+      "regex_expected" : "/list size: 3\nlist 0: 0x[0-9A-Za-z]+\nlist 1: 0x[0-9A-Za-z]+\nlist 2: 0x[0-9A-Za-z]+\nlist indexOf 2, expected 0x[0-9A-Za-z]+, got 0x[0-9A-Za-z]+, are equal\\? Yes/",
+      "name" : "Arraylist objn test"
+   },
+   "omp_mapreduce_friendlynumbers" : {
+      "expected" : "1 and 6 are friendly\n",
+      "name" : "omp_mapreduce_friendlynumbers"
    }
+
+
+
+
 }
