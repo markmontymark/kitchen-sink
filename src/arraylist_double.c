@@ -54,6 +54,17 @@ double arraylist_double_get(arraylist_double_t * list, int index)
 	return 0;
 }
 
+void arraylist_double_set(arraylist_double_t * list, int index, double value)
+{
+   if(index > list->size)
+   {
+      fprintf(stderr,"Error trying to set value %f at invalid index %d\n", value,index);
+      return;
+   }
+   *(list->data[index]) = value;
+}
+
+
 double arraylist_double_indexof(arraylist_double_t * list, double value) 
 {
 	int sz = arraylist_double_size( list );

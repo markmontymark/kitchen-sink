@@ -15,6 +15,7 @@ arraylist_double_t * arraylist_double_new();
 double 		arraylist_double_size(		arraylist_double_t * list);
 double 		arraylist_double_get(		arraylist_double_t * list, int index);
 void 			arraylist_double_add(		arraylist_double_t * list, double value);
+void 			arraylist_double_set(		arraylist_double_t * list, int index, double value);
 double  		arraylist_double_indexof(	arraylist_double_t * list, double value);
 void			arraylist_double_free(		arraylist_double_t * list);
 

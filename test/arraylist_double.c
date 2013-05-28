@@ -38,7 +38,8 @@ int main( double argc, char ** argv )
 		arraylist_double_get( list, 6 ),
 		(double)100 == arraylist_double_get( list, 6 ) ? "Yes" : "No"
 	);	
-
+	arraylist_double_set( list, 3 , 100.123);
+	printf("list indexOf %d, expected %f, got %f\n", 3, 100.123, arraylist_double_get( list, 3 ) );
 	arraylist_double_free( list );
 	return 0;
 }

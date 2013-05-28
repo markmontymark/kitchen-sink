@@ -97,7 +97,7 @@
       "name" : "Arraylist int test"
    },
    "arraylist_double" : {
-      "expected" : "list size: 10\nlist[0]: 10.000000\nlist[1]: 100.000000\nlist[2]: 1000.000000\nlist[3]: 10000.000000\nlist[4]: 100000.000000\nlist[5]: 10.000000\nlist[6]: 100.000000\nlist[7]: 2000.000000\nlist[8]: 20.000000\nlist[9]: 2.000000\nlist indexOf 6, expected 100.000000, got 100.000000, are equal? Yes\n",
+      "expected" : "list size: 10\nlist[0]: 10.000000\nlist[1]: 100.000000\nlist[2]: 1000.000000\nlist[3]: 10000.000000\nlist[4]: 100000.000000\nlist[5]: 10.000000\nlist[6]: 100.000000\nlist[7]: 2000.000000\nlist[8]: 20.000000\nlist[9]: 2.000000\nlist indexOf 6, expected 100.000000, got 100.000000, are equal? Yes\nlist indexOf 3, expected 100.123000, got 100.123000\n",
       "name" : "Arraylist double test"
    },
    "arraylist_objn" : {
