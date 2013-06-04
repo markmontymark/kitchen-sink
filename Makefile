@@ -17,6 +17,7 @@ test: all
 	perl ./scripts/ctest.pl test/ctest.json $T
 
 lib_objects: $O/script.o \
+	$O/line.o \
 	$O/arraylist_objn.o \
 	$O/arraylist_double.o \
 	$O/arraylist_int.o \
@@ -42,6 +43,7 @@ lib_objects: $O/script.o \
 	$O/run_cmd.o
 
 test_objects: $T/hashtable \
+	$T/line \
 	$T/omp_mapreduce_friendlynumbers \
 	$T/intel_tbb \
 	$T/intel_tbb_parallel_for \
@@ -82,6 +84,7 @@ doxy:
 libso:
 	gcc -shared -fPIC -Wl,-soname,libkitchensink.so.$V -o $L/libkitchensink.so.$V \
 	$O/script.o \
+	$O/line.o \
 	$O/arraylist_objn.o \
 	$O/arraylist_double.o \
 	$O/arraylist_int.o \
@@ -107,6 +110,12 @@ libso:
 
 
 ## TESTS
+
+$T/line: $(TO)/line.o 
+	gcc -fPIC -std=gnu11 -g -o $T/line $(TO)/line.o $(O)/line.o -Wall
+
+$(TO)/line.o: test/line.c
+	gcc -fPIC -std=gnu11 -g -c test/line.c -o $(TO)/line.o 
 
 $T/omp_mapreduce_friendlynumbers: $(TO)/omp_mapreduce_friendlynumbers.o 
 	g++ -fPIC -g -o $T/omp_mapreduce_friendlynumbers $(TO)/omp_mapreduce_friendlynumbers.o -fopenmp -Wall
@@ -275,6 +284,9 @@ $(TO)/ordered_tree_generic.o: test/data/ordered_tree_generic.c src/data/ordered_
 
 
 ## LIB OBJECTS
+
+$O/line.o: src/line.c
+	gcc -fPIC -std=gnu11 -g -c src/line.c -o $O/line.o
 
 $O/arraylist_objn.o: src/arraylist_objn.c
 	gcc -fPIC -std=gnu11 -g -c src/arraylist_objn.c -o $O/arraylist_objn.o
