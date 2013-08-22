@@ -10,6 +10,8 @@ int main( int argc, char ** argv )
 	arraylist_string_add(list,"on");
 	arraylist_string_add(list,"the longest entry in the list");
 	arraylist_string_add(list,"t");
+
+	//printf("to_string output: %s\nend to_string output\n",arraylist_string_to_string(list));
 	
 	int sz = arraylist_string_size( list );
 	printf("list size: %d\n", 	sz );

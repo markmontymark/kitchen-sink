@@ -20,6 +20,66 @@ arraylist_string_t * arraylist_string_new()
 	return list;
 }
 
+char * arraylist_string_to_string(arraylist_string_t * list)
+{
+   int i,
+      sz = arraylist_string_size( list );
+
+	int realloc_size = 1024;
+
+	char *t=NULL, *p=NULL, *cur = NULL;
+	int c; /* character buffer */
+	int len = 0; /* current number of elements read and stored */
+	int allocated = 0; /* number of allocated bytes in p */
+	int clen = 0;
+
+	p = malloc(realloc_size);
+	if(p == NULL)
+		return NULL;
+
+	allocated = realloc_size;
+
+   for(i = 0; i < sz; i++ )
+   {
+      cur = arraylist_string_get(list, i);
+		clen = strlen(cur);
+		if( (len + clen) >= allocated)  // todo fixy
+		{
+			t = realloc(p, allocated + realloc_size);
+			if (t == NULL)
+			{
+				free(p);
+				return NULL;
+			}
+			p = t;
+			allocated += realloc_size;
+		}
+		while( clen-- > 0 )
+			p[len++] = *cur++;
+		if( i != (sz-1) )
+			p[len++] = ',';
+   }
+	if(len == 0) 
+	{
+		p[0] = '\0';
+		return p;
+	}
+
+	if( (len + 1) != allocated) 
+	{
+		t = realloc(p, len+1);
+		if (t == NULL) 
+		{
+			if(p)
+				free(p);
+			return NULL;
+		}
+		p = t;
+	}
+
+	p[len] = '\0';
+	return p;
+}
 
 int arraylist_string_size(arraylist_string_t * list)
 {
